@@ -26,23 +26,20 @@
 
 .coordinates {
   position: absolute;
-  font-size: small;
-  z-index: 100;
-  color: aliceblue;
-  font-weight: 700;
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 900;
+  font-size: large;
+  text-shadow: 1px 1px black;
 }
 
 .pitch_block_light {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  /* background-color: rgba(0, 0, 0, 0.5);
+  /* border-color: rgba(0, 0, 0, 0.06);
   border-width: 1px;
-  
-  border-style: solid; */
-  border-color: rgba(0, 0, 0, 0.06);
-  border-width: 1px;
-  border-style: dashed;
+  border-style: dashed; */
   box-sizing: border-box;
   width: 50px;
   height: 50px;
