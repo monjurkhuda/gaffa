@@ -97,10 +97,6 @@ function Home() {
               src={require("./images/cb_standing.png")}
               className="player_avatar_left"
             />
-            <img
-              src={require("./images/cb_standing_right.png")}
-              className="player_avatar_right"
-            />
             {showCoordinates && <div className="coordinates">B03</div>}
           </div>
           <div className="pitch_block_light">
@@ -403,14 +399,10 @@ function Home() {
             {showCoordinates && <div className="coordinates">G11</div>}
           </div>
           <div className="pitch_block_light">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
             {showCoordinates && <div className="coordinates">G12</div>}
           </div>
           <div className="pitch_block_light">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
+            <img src={require("./images/head_away.png")} width={"50px"} />
             {showCoordinates && <div className="coordinates">G13</div>}
           </div>
           <div className="pitch_block_light">
