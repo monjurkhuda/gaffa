@@ -17,7 +17,7 @@ function Home() {
           justifyContent: "center",
           alignItems: "center",
           backgroundImage: `url(${background})`,
-          width: "1046px",
+          width: "1100px",
           height: "1020px",
         }}
       >
@@ -69,7 +69,7 @@ function Home() {
           <div className="pitch_block_light">
             <img
               src={require("./images/cb_standing_right.png")}
-              width={"50px"}
+              className="player_avatar_right"
             />
             {showCoordinates && <div className="coordinates">A12</div>}
           </div>
@@ -93,7 +93,14 @@ function Home() {
             {showCoordinates && <div className="coordinates">B02</div>}
           </div>
           <div className="pitch_block_light">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
+            <img
+              src={require("./images/cb_standing.png")}
+              className="player_avatar_left"
+            />
+            <img
+              src={require("./images/cb_standing_right.png")}
+              className="player_avatar_right"
+            />
             {showCoordinates && <div className="coordinates">B03</div>}
           </div>
           <div className="pitch_block_light">

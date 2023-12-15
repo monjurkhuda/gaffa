@@ -16,6 +16,14 @@
   height: 450px;
 }
 
+.player_avatar_right {
+  width: 50px;
+}
+
+.player_avatar_left {
+  width: 50px;
+}
+
 .coordinates {
   position: absolute;
   font-size: small;
@@ -26,16 +34,18 @@
 
 .pitch_block_light {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   /* background-color: rgba(0, 0, 0, 0.5);
   border-width: 1px;
-  border-color: black;
-  border-style: solid;
-  box-sizing: border-box; */
-  width: 50px;
-  height: 50px;
+  
+  border-style: solid; */
+  border-color: rgba(0, 0, 0, 0.06);
+  border-width: 1px;
+  border-style: dashed;
+  box-sizing: border-box;
+  width: 70px;
+  height: 70px;
 }
 
 .pitch_block_dark {
