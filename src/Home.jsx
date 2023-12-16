@@ -6,6 +6,10 @@ import kick from "./images/kick.png";
 
 function Home() {
   const [showCoordinates, setShowCoordinates] = useState(false);
+  const [showPlayerDetails, setShowPlayerDetails] = useState(false);
+  const [showPlayerDetailsGerrard, setShowPlayerDetailsGerrard] =
+    useState(false);
+
   return (
     <div>
       <button onClick={() => setShowCoordinates(!showCoordinates)}>
@@ -165,7 +169,15 @@ function Home() {
             <img
               src={require("./images/cb_standing_right.png")}
               width={"50px"}
+              onClick={() => setShowPlayerDetails(!showPlayerDetails)}
             />
+            {showPlayerDetails && (
+              <img
+                className="player_popup"
+                src={require("./images/vidic_popup.png")}
+                onClick={() => setShowPlayerDetails(!showPlayerDetails)}
+              />
+            )}
             {showCoordinates && <div className="coordinates">C08</div>}
           </div>
           <div className="pitch_block_light">
@@ -178,7 +190,22 @@ function Home() {
             {showCoordinates && <div className="coordinates">C11</div>}
           </div>
           <div className="pitch_block_light">
-            <img src={require("./images/kick.png")} width={"50px"} />
+            <img
+              width={"50px"}
+              src={require("./images/kick.png")}
+              onClick={() =>
+                setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+              }
+            />
+            {showPlayerDetailsGerrard && (
+              <img
+                className="player_popup"
+                src={require("./images/gerrard_popup.png")}
+                onClick={() =>
+                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                }
+              />
+            )}
             {showCoordinates && <div className="coordinates">C12</div>}
           </div>
           <div className="pitch_block_light">
