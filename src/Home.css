@@ -16,11 +16,8 @@
   height: 450px;
 }
 
-.player_avatar_right {
-  width: 50px;
-}
-
-.player_avatar_left {
+.player_avatar {
+  position: absolute;
   width: 50px;
 }
 
@@ -38,26 +35,13 @@
   width: 160px;
 }
 
-.pitch_block_light {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  /* border-color: rgba(0, 0, 0, 0.06);
-  border-width: 1px;
-  border-style: dashed; */
-  box-sizing: border-box;
-  width: 50px;
-  height: 50px;
-}
-
-.pitch_block_dark {
+.pitch_block {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
+  /* border-color: rgba(0, 0, 0, 0.06);
   border-width: 1px;
-  border-color: black;
-  border-style: solid;
+  border-style: dashed; */
   box-sizing: border-box;
   width: 50px;
   height: 50px;
