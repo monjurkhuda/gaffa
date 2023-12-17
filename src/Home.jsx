@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import styles from "./Home.css";
-import { GiSoccerKick } from "react-icons/gi";
+import "./Home.css";
 import background from "./images/pitch.jpg";
-import kick from "./images/kick.png";
 
 function Home() {
   const [showCoordinates, setShowCoordinates] = useState(false);
@@ -217,7 +215,10 @@ function Home() {
             {showCoordinates && <div className="coordinates">C12</div>}
           </div>
           <div className="pitch_block">
-            <img src={require("./images/slide_tackle.png")} width={"50px"} />
+            <img
+              className="player_avatar"
+              src={require("./images/vidic_standing_right.png")}
+            />
             {showCoordinates && <div className="coordinates">C13</div>}
           </div>
           <div className="pitch_block">
@@ -314,7 +315,7 @@ function Home() {
           </div>
           <div className="pitch_block">
             <img
-              width={"50px"}
+              className="player_avatar"
               src={require("./images/gerrad_standing_left.png")}
               onClick={() =>
                 setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
@@ -463,7 +464,10 @@ function Home() {
             {showCoordinates && <div className="coordinates">G12</div>}
           </div>
           <div className="pitch_block">
-            <img src={require("./images/head_away.png")} width={"50px"} />
+            <img
+              className="player_avatar"
+              src={require("./images/vidic_standing_right.png")}
+            />
             {showCoordinates && <div className="coordinates">G13</div>}
           </div>
           <div className="pitch_block">
