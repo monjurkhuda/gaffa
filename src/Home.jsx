@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import background from "./images/pitch.jpg";
 
 function Home() {
+  const [gameOver, setGameOver] = useState(false);
   const [showCoordinates, setShowCoordinates] = useState(false);
   const [showPlayerDetails, setShowPlayerDetails] = useState(false);
   const [showPlayerDetailsGerrard, setShowPlayerDetailsGerrard] =
     useState(false);
+
+  let count = 1;
+
+  let gameState = {
+    posessingTeam: "Home",
+    posessingPlayer: "Gerrard",
+    ballBlock: "E09",
+  };
+
+  function posessorAction() {
+    console.log(gameOver);
+    count++;
+  }
+
+  function defenderAction() {}
+
+  function offBallAttackerAction() {}
+
+  // useEffect(() => {
+  //   const gameInterval = setInterval(() => posessorAction(), 1000);
+
+  //   if (count === 5) {
+  //     setGameOver(true);
+  //     console.log("reached");
+  //   }
+
+  //   if (gameOver) clearInterval(gameInterval);
+
+  //   return () => clearInterval(gameInterval);
+  // });
 
   return (
     <div>
@@ -313,14 +344,26 @@ function Home() {
           <div className="pitch_block">
             {showCoordinates && <div className="coordinates">E08</div>}
           </div>
+
           <div className="pitch_block">
-            <img
-              className="player_avatar"
-              src={require("./images/gerrad_standing_left.png")}
-              onClick={() =>
-                setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-              }
-            />
+            {gameState.ballBlock === "E09" ? (
+              <img
+                className="player_avatar"
+                src={require("./images/gerrad_posession_left.png")}
+                onClick={() =>
+                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                }
+              />
+            ) : (
+              <img
+                className="player_avatar"
+                src={require("./images/gerrad_standing_left.png")}
+                onClick={() =>
+                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                }
+              />
+            )}
+
             {showPlayerDetailsGerrard && (
               <img
                 className="player_popup"
@@ -332,6 +375,7 @@ function Home() {
             )}
             {showCoordinates && <div className="coordinates">E09</div>}
           </div>
+
           <div className="pitch_block">
             <img
               src={require("./images/vidic_standing_right.png")}
