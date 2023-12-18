@@ -8,36 +8,61 @@ function Home() {
   const [showPlayerDetails, setShowPlayerDetails] = useState(false);
   const [showPlayerDetailsGerrard, setShowPlayerDetailsGerrard] =
     useState(false);
-
-  let count = 1;
-
-  let gameState = {
+  // Initialize the game state
+  const [gameState, setGameState] = useState({
+    time: 0, // The elapsed time in seconds
+    homeScore: 0,
+    awayScore: 0, // The current score
+    gameOver: false,
     posessingTeam: "Home",
     posessingPlayer: "Gerrard",
     ballBlock: "E09",
-  };
+  });
+
+  let count = 1;
+
+  // let gameState = {
+  //   posessingTeam: "Home",
+  //   posessingPlayer: "Gerrard",
+  //   ballBlock: "E09",
+  // };
 
   function posessorAction() {
     console.log(gameOver);
     count++;
   }
 
-  function defenderAction() {}
+  function defenderAction() {
+    // setGameOver(true);
+  }
 
   function offBallAttackerAction() {}
 
-  // useEffect(() => {
-  //   const gameInterval = setInterval(() => posessorAction(), 1000);
+  // Define the game logic
+  const gameLogic = () => {
+    // Update the game state
+    setGameState((prevState) => {
+      // Check if the game is over
+      if (prevState.time >= 3) {
+        return { ...prevState, gameOver: true };
+      }
 
-  //   if (count === 5) {
-  //     setGameOver(true);
-  //     console.log("reached");
-  //   }
+      // Otherwise, increment the time and score
+      return {
+        ...prevState,
+        time: prevState.time + 1,
+      };
+    });
+  };
 
-  //   if (gameOver) clearInterval(gameInterval);
-
-  //   return () => clearInterval(gameInterval);
-  // });
+  // Use useEffect to run the game logic every second
+  useEffect(() => {
+    // Create a timer
+    const timer = setInterval(gameLogic, 1000);
+    // Return a cleanup function to clear the timer
+    return () => clearInterval(timer);
+    // Add gameLogic as a dependency to avoid infinite loop
+  }, [gameLogic]);
 
   return (
     <div>
@@ -62,6 +87,10 @@ function Home() {
               width={"50px"}
             />
           </div> */}
+
+          <p style={{ position: "absolute", top: "190px" }}>
+            {gameState.time}'
+          </p>
 
           <div className="pitch_block">
             <img
