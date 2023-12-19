@@ -19,7 +19,14 @@ function Home() {
     ballBlock: "E09",
   });
 
-  let count = 1;
+  let playerData = {
+    Gerrard: {
+      pass: 90,
+    },
+    Vidic: {
+      slide_tackle: 90,
+    },
+  };
 
   // let gameState = {
   //   posessingTeam: "Home",
@@ -28,8 +35,15 @@ function Home() {
   // };
 
   function posessorAction() {
-    console.log(gameOver);
-    count++;
+    let randNum = Math.floor(Math.random() * 2 + 1);
+
+    if (gameState.posessingPlayer === "Gerrard") {
+      if (randNum === 1) {
+      }
+
+      if (randNum === 2) {
+      }
+    }
   }
 
   function defenderAction() {
@@ -38,16 +52,14 @@ function Home() {
 
   function offBallAttackerAction() {}
 
-  // Define the game logic
   const gameLogic = () => {
-    // Update the game state
     setGameState((prevState) => {
-      // Check if the game is over
-      if (prevState.time >= 3) {
+      if (prevState.time >= 2) {
         return { ...prevState, gameOver: true };
       }
 
-      // Otherwise, increment the time and score
+      posessorAction();
+
       return {
         ...prevState,
         time: prevState.time + 1,
@@ -55,13 +67,11 @@ function Home() {
     });
   };
 
-  // Use useEffect to run the game logic every second
   useEffect(() => {
-    // Create a timer
-    const timer = setInterval(gameLogic, 1000);
-    // Return a cleanup function to clear the timer
-    return () => clearInterval(timer);
-    // Add gameLogic as a dependency to avoid infinite loop
+    if (!gameState.gameOver) {
+      const timer = setInterval(gameLogic, 1000);
+      return () => clearInterval(timer);
+    }
   }, [gameLogic]);
 
   return (
@@ -375,7 +385,9 @@ function Home() {
           </div>
 
           <div className="pitch_block">
-            {gameState.ballBlock === "E09" ? (
+            <p className="commentary_text">Gerrard has the ball</p>
+
+            {gameState.posessingPlayer === "Gerrard" ? (
               <img
                 className="player_avatar"
                 src={require("./images/gerrad_posession_left.png")}

@@ -21,6 +21,16 @@
   width: 50px;
 }
 
+.commentary_text {
+  position: absolute;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  padding-top: 80px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: medium;
+}
+
 .coordinates {
   position: absolute;
   color: white;
