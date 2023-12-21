@@ -11,13 +11,34 @@ function Home() {
   // Initialize the game state
   const [gameState, setGameState] = useState({
     time: 0, // The elapsed time in seconds
+    homeForm: 4231,
+    awayForm: 532,
     homeScore: 0,
-    awayScore: 0, // The current score
+    awayScore: 0,
     gameOver: false,
     posessingTeam: "Home",
     posessingPlayer: "Gerrard",
     ballBlock: "E09",
   });
+
+  let homeFormations = {
+    4231: { B10: "LW", E09: "CAM", H10: "RW", E12: "ST" },
+  };
+
+  let awayFormations = {
+    532: {
+      A12: true,
+      C13: true,
+      E13: true,
+      G13: true,
+      I12: true,
+      E10: true,
+      C08: true,
+      G08: true,
+    },
+  };
+
+  console.log(homeFormations[gameState.homeForm].E09);
 
   let playerData = {
     Gerrard: {
@@ -25,6 +46,12 @@ function Home() {
     },
     Vidic: {
       slide_tackle: 90,
+    },
+  };
+
+  let lineupData = {
+    Home: {
+      CAM: "Gerrard",
     },
   };
 
