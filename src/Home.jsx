@@ -38,20 +38,35 @@ function Home() {
     },
   };
 
-  console.log(homeFormations[gameState.homeForm].E09);
+  let teamData = {
+    Home: {
+      passing: "short",
+    },
+    Away: {
+      pressing: "constant",
+    },
+  };
 
   let playerData = {
     Gerrard: {
-      pass: 90,
+      first_touch: 18,
+      stamina: 20,
+      passing: 19,
     },
     Vidic: {
-      slide_tackle: 90,
+      strenght: 18,
+      aggression: 18,
+      stamina: 16,
     },
   };
 
   let lineupData = {
     Home: {
       CAM: "Gerrard",
+    },
+
+    Away: {
+      CDM: "Vidic",
     },
   };
 
@@ -66,9 +81,11 @@ function Home() {
 
     if (gameState.posessingPlayer === "Gerrard") {
       if (randNum === 1) {
+        console.log(randNum);
       }
 
       if (randNum === 2) {
+        console.log(randNum);
       }
     }
   }
@@ -85,7 +102,7 @@ function Home() {
         return { ...prevState, gameOver: true };
       }
 
-      posessorAction();
+      posessorAction(gameState);
 
       return {
         ...prevState,
