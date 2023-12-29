@@ -51,6 +51,19 @@ function Home() {
       first_touch: 18,
       stamina: 20,
       passing: 19,
+      club_loyalty: 20,
+      morale: 14,
+      dribbling: 16,
+      trusts_manager: 10,
+      traits: {
+        one_club_man: true,
+        run_forward: true,
+        killer_balls_often: true,
+        long_shooter: true,
+      },
+      instructions: {
+        shoot_long_often: true,
+      },
     },
     Vidic: {
       strenght: 18,
@@ -69,7 +82,26 @@ function Home() {
     },
   };
 
-  function posessorAction() {}
+  function posessorAction() {
+    let randNum = Math.floor(Math.random() * 3 + 1);
+
+    console.log(playerData[gameState.posessingPlayer]);
+
+    switch (randNum) {
+      case 1:
+        console.log("pass");
+        break;
+      case 2:
+        console.log("dribble");
+        break;
+      case 3:
+        console.log("shot");
+        break;
+
+      default:
+        break;
+    }
+  }
 
   function defenderAction() {}
 
