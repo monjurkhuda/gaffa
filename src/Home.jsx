@@ -3,14 +3,13 @@ import "./Home.css";
 import background from "./images/pitch.jpg";
 
 function Home() {
-  const [gameOver, setGameOver] = useState(false);
   const [showCoordinates, setShowCoordinates] = useState(false);
   const [showPlayerDetails, setShowPlayerDetails] = useState(false);
   const [showPlayerDetailsGerrard, setShowPlayerDetailsGerrard] =
     useState(false);
-  // Initialize the game state
+
   const [gameState, setGameState] = useState({
-    time: 0, // The elapsed time in seconds
+    time: 0,
     homeForm: 4231,
     awayForm: 532,
     homeScore: 0,
@@ -70,39 +69,46 @@ function Home() {
     },
   };
 
-  // let gameState = {
-  //   posessingTeam: "Home",
-  //   posessingPlayer: "Gerrard",
-  //   ballBlock: "E09",
-  // };
+  function posessorAction() {}
 
-  function posessorAction() {
-    let randNum = Math.floor(Math.random() * 2 + 1);
-
-    if (gameState.posessingPlayer === "Gerrard") {
-      if (randNum === 1) {
-        console.log(randNum);
-      }
-
-      if (randNum === 2) {
-        console.log(randNum);
-      }
-    }
-  }
-
-  function defenderAction() {
-    // setGameOver(true);
-  }
+  function defenderAction() {}
 
   function offBallAttackerAction() {}
 
+  // const gameLogic = () => {
+  //   if (gameState.gameOver) return;
+
+  //   setGameState((prevState) => {
+  //     if (prevState.time >= 4) {
+  //       return { ...prevState, gameOver: true };
+  //     }
+
+  //     let randNum = Math.floor(Math.random() * 10000 + 1);
+
+  //     console.log(randNum);
+
+  //     //gameLogic();
+
+  //     //posessorAction(gameState);
+
+  //     return {
+  //       ...prevState,
+  //       time: prevState.time + 1,
+  //     };
+  //   });
+  // };
+
   const gameLogic = () => {
+    offBallAttackerAction();
+    posessorAction();
+    defenderAction();
+
+    console.log(gameState);
+
     setGameState((prevState) => {
-      if (prevState.time >= 2) {
+      if (prevState.time >= 4) {
         return { ...prevState, gameOver: true };
       }
-
-      posessorAction(gameState);
 
       return {
         ...prevState,
@@ -111,18 +117,12 @@ function Home() {
     });
   };
 
-  useEffect(() => {
-    if (!gameState.gameOver) {
-      const timer = setInterval(gameLogic, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [gameLogic]);
-
   return (
     <div>
       <button onClick={() => setShowCoordinates(!showCoordinates)}>
         Show Coordinates
       </button>
+      <button onClick={() => gameLogic()}>next</button>
       <div
         style={{
           display: "flex",
