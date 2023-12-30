@@ -48,6 +48,7 @@ function Home() {
 
   let playerData = {
     Gerrard: {
+      position: "CAM",
       first_touch: 18,
       stamina: 20,
       passing: 19,
@@ -64,9 +65,10 @@ function Home() {
       },
       on_ball_traits: ["try_killer_ball", "shoot_long"],
       off_ball_traits: ["run_forward"],
-      instructions: ["shoot_long"],
+      instructions: ["shoot_long", "dribble"],
     },
     Vidic: {
+      position: "CDM",
       strenght: 18,
       aggression: 18,
       stamina: 16,
@@ -74,7 +76,7 @@ function Home() {
   };
 
   let onBallActions = {
-    CAM: ["asas", "asass"],
+    CAM: ["dribble", "pass_back"],
     CDM: [],
   };
 
@@ -90,17 +92,31 @@ function Home() {
 
   function posessorAction() {
     let posessingPlyr = gameState.posessingPlayer;
+
     let instructionWeight = playerData[posessingPlyr].trusts_manager;
+    let instructionLength = playerData[posessingPlyr].instructions.length;
+    let randInstructionNum = Math.floor(Math.random() * instructionLength + 1);
+
     let onBallTraitObjLength = playerData[posessingPlyr].on_ball_traits.length;
     let onBallTraitWeight = onBallTraitObjLength * 5;
+    let randOnBallTraitNum = Math.floor(
+      Math.random() * onBallTraitObjLength + 1
+    );
+
+    let onBallActionsLength =
+      onBallActions[lineupData.Home[posessingPlyr]].length;
+    let randOnBallActionsNum = Math.floor(Math.random() * onBallActionsLength);
     let onBallActionsWeight =
-      onBallActions[lineupData.Home[posessingPlyr]].length > 0
-        ? onBallActions[lineupData.Home[posessingPlyr]].length * 5
-        : onBallActions[lineupData.Away[posessingPlyr]].length * 5;
+      onBallActionsLength > 0
+        ? onBallActionsLength * 5
+        : onBallActionsLength * 5;
 
-    let randOnBallTrait = Math.floor(Math.random() * onBallTraitObjLength + 1);
-
-    console.log(instructionWeight, onBallTraitWeight, onBallActionsWeight);
+    console.log(
+      instructionWeight,
+      onBallTraitWeight,
+      onBallActionsWeight,
+      randInstructionNum
+    );
 
     let randNum = Math.floor(
       Math.random() *
@@ -111,16 +127,25 @@ function Home() {
     console.log(randNum);
 
     switch (randNum) {
-      case 1:
-        console.log(playerData[posessingPlyr].instructions[0]);
+      case randNum > 1 && randNum <= instructionWeight:
+        //follow an instruction
+        console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
         break;
-      case 2:
-        console.log(playerData[posessingPlyr].on_ball_traits[randOnBallTrait]);
+      case randNum > instructionWeight &&
+        randNum <= instructionWeight + onBallTraitWeight:
+        //follow an on ball trait
+        console.log(
+          playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum]
+        );
         break;
-      case 3:
-        console.log("pass_back");
+      case randNum > instructionWeight + onBallTraitWeight:
+        //do on ball action
+        console.log(
+          onBallActions[playerData[posessingPlyr].position][
+            randOnBallActionsNum
+          ]
+        );
         break;
-
       default:
         break;
     }
