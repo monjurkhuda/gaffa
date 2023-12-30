@@ -63,9 +63,9 @@ function Home() {
       mental_traits: {
         one_club_man: true,
       },
-      on_ball_traits: ["try_killer_ball", "shoot_long"],
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
       off_ball_traits: ["run_forward"],
-      instructions: ["shoot_long", "dribble"],
+      instructions: ["shoot_long", "stall"],
     },
     Vidic: {
       position: "CDM",
@@ -95,13 +95,11 @@ function Home() {
 
     let instructionWeight = playerData[posessingPlyr].trusts_manager;
     let instructionLength = playerData[posessingPlyr].instructions.length;
-    let randInstructionNum = Math.floor(Math.random() * instructionLength + 1);
+    let randInstructionNum = Math.floor(Math.random() * instructionLength);
 
     let onBallTraitObjLength = playerData[posessingPlyr].on_ball_traits.length;
     let onBallTraitWeight = onBallTraitObjLength * 5;
-    let randOnBallTraitNum = Math.floor(
-      Math.random() * onBallTraitObjLength + 1
-    );
+    let randOnBallTraitNum = Math.floor(Math.random() * onBallTraitObjLength);
 
     let onBallActionsLength =
       onBallActions[lineupData.Home[posessingPlyr]].length;
@@ -115,7 +113,9 @@ function Home() {
       instructionWeight,
       onBallTraitWeight,
       onBallActionsWeight,
-      randInstructionNum
+      randInstructionNum,
+      randOnBallTraitNum,
+      randOnBallActionsNum
     );
 
     let randNum = Math.floor(
@@ -126,8 +126,8 @@ function Home() {
 
     console.log(randNum);
 
-    switch (randNum) {
-      case randNum > 1 && randNum <= instructionWeight:
+    switch (true) {
+      case randNum > 0 && randNum <= instructionWeight:
         //follow an instruction
         console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
         break;
