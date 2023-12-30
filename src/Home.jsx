@@ -55,15 +55,16 @@ function Home() {
       morale: 14,
       dribbling: 16,
       trusts_manager: 10,
-      traits: {
+      decisions: 18,
+      personal_traits: {
         one_club_man: true,
-        run_forward: true,
-        killer_balls_often: true,
-        long_shooter: true,
       },
-      instructions: {
-        shoot_long_often: true,
+      mental_traits: {
+        one_club_man: true,
       },
+      on_ball_traits: ["try_killer_ball", "shoot_long"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long"],
     },
     Vidic: {
       strenght: 18,
@@ -72,30 +73,52 @@ function Home() {
     },
   };
 
+  let onBallActions = {
+    CAM: ["asas", "asass"],
+    CDM: [],
+  };
+
   let lineupData = {
     Home: {
-      CAM: "Gerrard",
+      Gerrard: "CAM",
     },
 
     Away: {
-      CDM: "Vidic",
+      Vidic: "CDM",
     },
   };
 
   function posessorAction() {
-    let randNum = Math.floor(Math.random() * 3 + 1);
+    let posessingPlyr = gameState.posessingPlayer;
+    let instructionWeight = playerData[posessingPlyr].trusts_manager;
+    let onBallTraitObjLength = playerData[posessingPlyr].on_ball_traits.length;
+    let onBallTraitWeight = onBallTraitObjLength * 5;
+    let onBallActionsWeight =
+      onBallActions[lineupData.Home[posessingPlyr]].length > 0
+        ? onBallActions[lineupData.Home[posessingPlyr]].length * 5
+        : onBallActions[lineupData.Away[posessingPlyr]].length * 5;
 
-    console.log(playerData[gameState.posessingPlayer]);
+    let randOnBallTrait = Math.floor(Math.random() * onBallTraitObjLength + 1);
+
+    console.log(instructionWeight, onBallTraitWeight, onBallActionsWeight);
+
+    let randNum = Math.floor(
+      Math.random() *
+        (instructionWeight + onBallTraitWeight + onBallActionsWeight) +
+        1
+    );
+
+    console.log(randNum);
 
     switch (randNum) {
       case 1:
-        console.log("pass");
+        console.log(playerData[posessingPlyr].instructions[0]);
         break;
       case 2:
-        console.log("dribble");
+        console.log(playerData[posessingPlyr].on_ball_traits[randOnBallTrait]);
         break;
       case 3:
-        console.log("shot");
+        console.log("pass_back");
         break;
 
       default:
@@ -134,8 +157,6 @@ function Home() {
     offBallAttackerAction();
     posessorAction();
     defenderAction();
-
-    console.log(gameState);
 
     setGameState((prevState) => {
       if (prevState.time >= 4) {
