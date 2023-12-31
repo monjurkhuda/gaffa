@@ -180,9 +180,12 @@ function Home() {
   function dribbleLogic() {
     let randNum = Math.floor(Math.random() * 2 + 1);
 
+    console.log("dribble logic executed", randNum);
+
     switch (randNum) {
       case 1:
         setGameState((prevState) => {
+          console.log("<<><><><><><><><>");
           return {
             ...prevState,
             dribbleToBlock: "D10",
@@ -229,15 +232,23 @@ function Home() {
   //   });
   // };
 
-  const gameLogic = () => {
-    offBallAttackerAction();
-    posessorAction();
-    defenderAction();
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function gameLogic() {
+    // if (!gameState.gameOver) {
+    //   await sleep(2000);
+    // }
 
     setGameState((prevState) => {
       if (prevState.time >= 90) {
         return { ...prevState, gameOver: true };
       }
+
+      offBallAttackerAction();
+      posessorAction();
+      defenderAction();
 
       if (prevState.dribbleToBlock) {
         return {
@@ -252,7 +263,7 @@ function Home() {
         time: prevState.time + 1,
       };
     });
-  };
+  }
 
   useEffect(() => {}, [gameState]);
 
