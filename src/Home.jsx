@@ -20,6 +20,7 @@ function Home() {
     posessorAction: "stall",
     offBallAttacker: "",
     offBallAttackerAction: "",
+    dribbleToBlock: "",
     ballBlock: "E09",
   });
 
@@ -166,11 +167,44 @@ function Home() {
       default:
         break;
     }
+
+    if (gameState.posessorAction === "dribble") {
+      dribbleLogic();
+    }
   }
 
   function defenderAction() {}
 
   function offBallAttackerAction() {}
+
+  function dribbleLogic() {
+    let randNum = Math.floor(Math.random() * 2 + 1);
+
+    switch (randNum) {
+      case 1:
+        setGameState((prevState) => {
+          return {
+            ...prevState,
+            dribbleToBlock: "D10",
+            time: prevState.time + 1,
+          };
+        });
+        break;
+
+      case 2:
+        setGameState((prevState) => {
+          return {
+            ...prevState,
+            dribbleToBlock: "F10",
+            time: prevState.time + 1,
+          };
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
 
   // const gameLogic = () => {
   //   if (gameState.gameOver) return;
@@ -201,8 +235,16 @@ function Home() {
     defenderAction();
 
     setGameState((prevState) => {
-      if (prevState.time >= 4) {
+      if (prevState.time >= 90) {
         return { ...prevState, gameOver: true };
+      }
+
+      if (prevState.dribbleToBlock) {
+        return {
+          ...prevState,
+          time: prevState.time + 1,
+          dribbleToBlock: "",
+        };
       }
 
       return {
@@ -211,6 +253,12 @@ function Home() {
       };
     });
   };
+
+  useEffect(() => {}, [gameState]);
+
+  console.log(gameState.dribbleToBlock);
+  console.log(gameState.dribbleToBlock === "D10");
+  console.log(gameState.dribbleToBlock === "F10");
 
   return (
     <div>
@@ -473,6 +521,17 @@ function Home() {
             {showCoordinates && <div className="coordinates">D09</div>}
           </div>
           <div className="pitch_block">
+            {gameState.dribbleToBlock === "D10" ? (
+              <img
+                className="player_avatar"
+                src={require("./images/gerrad_posession_left.png")}
+                onClick={() =>
+                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                }
+              />
+            ) : (
+              <></>
+            )}
             {showCoordinates && <div className="coordinates">D10</div>}
           </div>
           <div className="pitch_block">
@@ -665,6 +724,18 @@ function Home() {
             {showCoordinates && <div className="coordinates">F09</div>}
           </div>
           <div className="pitch_block">
+            {gameState.dribbleToBlock === "F10" ? (
+              <img
+                className="player_avatar"
+                src={require("./images/gerrad_posession_left.png")}
+                onClick={() =>
+                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                }
+              />
+            ) : (
+              <></>
+            )}
+
             {showCoordinates && <div className="coordinates">F10</div>}
           </div>
           <div className="pitch_block">
