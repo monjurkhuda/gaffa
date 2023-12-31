@@ -22,6 +22,7 @@ function Home() {
     offBallAttackerAction: "",
     dribbleToBlock: "",
     ballBlock: "E09",
+    commentary: "Kick off!",
   });
 
   let homeFormations = {
@@ -185,10 +186,10 @@ function Home() {
     switch (randNum) {
       case 1:
         setGameState((prevState) => {
-          console.log("<<><><><><><><><>");
           return {
             ...prevState,
             dribbleToBlock: "D10",
+            commentary: "Gerrard dribbles to his left!",
             time: prevState.time + 1,
           };
         });
@@ -199,6 +200,7 @@ function Home() {
           return {
             ...prevState,
             dribbleToBlock: "F10",
+            commentary: "Gerrard dribbles to his strong right foot!",
             time: prevState.time + 1,
           };
         });
@@ -255,6 +257,7 @@ function Home() {
           ...prevState,
           time: prevState.time + 1,
           dribbleToBlock: "",
+          commentary: "",
         };
       }
 
@@ -265,11 +268,10 @@ function Home() {
     });
   }
 
-  useEffect(() => {}, [gameState]);
+  // useEffect(() => {}, [gameState]);
 
   console.log(gameState.dribbleToBlock);
-  console.log(gameState.dribbleToBlock === "D10");
-  console.log(gameState.dribbleToBlock === "F10");
+  console.log(gameState);
 
   return (
     <div>
@@ -532,6 +534,15 @@ function Home() {
             {showCoordinates && <div className="coordinates">D09</div>}
           </div>
           <div className="pitch_block">
+            {gameState.dribbleToBlock === "" &&
+            gameState.ballBlock === "D10" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : gameState.dribbleToBlock === "D10" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : (
+              <></>
+            )}
+
             {gameState.dribbleToBlock === "D10" ? (
               <img
                 className="player_avatar"
@@ -594,7 +605,14 @@ function Home() {
           </div>
 
           <div className="pitch_block">
-            <p className="commentary_text">Gerrard has the ball</p>
+            {gameState.dribbleToBlock === "" &&
+            gameState.ballBlock === "E09" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : gameState.dribbleToBlock === "E09" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : (
+              <></>
+            )}
 
             {gameState.ballBlock !== "E09" ? (
               <img
@@ -735,6 +753,15 @@ function Home() {
             {showCoordinates && <div className="coordinates">F09</div>}
           </div>
           <div className="pitch_block">
+            {gameState.dribbleToBlock === "" &&
+            gameState.ballBlock === "F10" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : gameState.dribbleToBlock === "F10" ? (
+              <p className="commentary_text">{gameState.commentary}</p>
+            ) : (
+              <></>
+            )}
+
             {gameState.dribbleToBlock === "F10" ? (
               <img
                 className="player_avatar"
