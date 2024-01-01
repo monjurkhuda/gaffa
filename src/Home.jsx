@@ -68,9 +68,13 @@ function Home() {
       mental_traits: {
         one_club_man: true,
       },
-      on_ball_traits: ["try_killer_ball", "pass_wide"],
-      off_ball_traits: ["run_forward"],
-      instructions: ["shoot_long", "stall"],
+      // on_ball_traits: ["try_killer_ball", "pass_wide"],
+      // off_ball_traits: ["run_forward"],
+      // instructions: ["shoot_long", "stall"],
+
+      on_ball_traits: ["dribble", "dribble"],
+      off_ball_traits: ["dribble"],
+      instructions: ["dribble", "dribble"],
     },
     Vidic: {
       position: "CDM",
@@ -114,15 +118,15 @@ function Home() {
         ? onBallActionsLength * 5
         : onBallActionsLength * 5;
 
-    console.log(
-      instructionWeight,
-      onBallTraitWeight,
-      onBallActionsWeight,
-      randInstructionNum,
-      randOnBallTraitNum,
-      randOnBallActionsNum,
-      gameState
-    );
+    // console.log(
+    //   instructionWeight,
+    //   onBallTraitWeight,
+    //   onBallActionsWeight,
+    //   randInstructionNum,
+    //   randOnBallTraitNum,
+    //   randOnBallActionsNum,
+    //   gameState
+    // );
 
     let randNum = Math.floor(
       Math.random() *
@@ -137,7 +141,7 @@ function Home() {
         //follow an instruction
         gameState.posessorAction =
           playerData[posessingPlyr].instructions[randInstructionNum];
-        console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
+        //console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
         break;
 
       case randNum > instructionWeight &&
@@ -146,9 +150,9 @@ function Home() {
         gameState.posessorAction =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
 
-        console.log(
-          playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum]
-        );
+        // console.log(
+        //   playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum]
+        // );
         break;
 
       case randNum > instructionWeight + onBallTraitWeight:
@@ -158,16 +162,18 @@ function Home() {
             randOnBallActionsNum
           ];
 
-        console.log(
-          onBallActions[playerData[posessingPlyr].position][
-            randOnBallActionsNum
-          ]
-        );
+        // console.log(
+        //   onBallActions[playerData[posessingPlyr].position][
+        //     randOnBallActionsNum
+        //   ]
+        // );
         break;
 
       default:
         break;
     }
+
+    console.log(gameState.posessorAction);
 
     if (gameState.posessorAction === "dribble") {
       dribbleLogic();
@@ -180,9 +186,7 @@ function Home() {
 
   function dribbleLogic() {
     let randNum = Math.floor(Math.random() * 2 + 1);
-
     console.log("dribble logic executed", randNum);
-
     switch (randNum) {
       case 1:
         setGameState((prevState) => {
@@ -190,22 +194,18 @@ function Home() {
             ...prevState,
             dribbleToBlock: "D10",
             commentary: "Gerrard dribbles to his left!",
-            time: prevState.time + 1,
           };
         });
         break;
-
       case 2:
         setGameState((prevState) => {
           return {
             ...prevState,
             dribbleToBlock: "F10",
             commentary: "Gerrard dribbles to his strong right foot!",
-            time: prevState.time + 1,
           };
         });
         break;
-
       default:
         break;
     }
@@ -223,9 +223,9 @@ function Home() {
 
   //     console.log(randNum);
 
-  //     //gameLogic();
+  //     gameLogic();
 
-  //     //posessorAction(gameState);
+  //     posessorAction(gameState);
 
   //     return {
   //       ...prevState,
@@ -252,7 +252,7 @@ function Home() {
       posessorAction();
       defenderAction();
 
-      if (prevState.dribbleToBlock) {
+      if (prevState.dribbleToBlock.length > 0) {
         return {
           ...prevState,
           time: prevState.time + 1,
@@ -270,7 +270,7 @@ function Home() {
 
   // useEffect(() => {}, [gameState]);
 
-  console.log(gameState.dribbleToBlock);
+  // console.log(gameState.dribbleToBlock);
   console.log(gameState);
 
   return (
