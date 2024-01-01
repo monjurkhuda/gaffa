@@ -85,7 +85,7 @@ function Home() {
     },
   };
 
-  let onBallActions = {
+  let onBallActionsByPosition = {
     CAM: ["dribble", "pass_back"],
     CDM: [],
   };
@@ -112,7 +112,7 @@ function Home() {
     let randOnBallTraitNum = Math.floor(Math.random() * onBallTraitObjLength);
 
     let onBallActionsLength =
-      onBallActions[lineupData.Home[posessingPlyr]].length;
+      onBallActionsByPosition[lineupData.Home[posessingPlyr]].length;
     let randOnBallActionsNum = Math.floor(Math.random() * onBallActionsLength);
     let onBallActionsWeight =
       onBallActionsLength > 0
@@ -159,7 +159,7 @@ function Home() {
         //follow an on ball trait
         gameState.posessorAction =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
-        gameState.commentary = "On ball trait!";
+        gameState.commentary = "Player on ball trait!";
 
         // setGameState((prevState) => {
         //   return {
@@ -178,16 +178,16 @@ function Home() {
       case randNum > instructionWeight + onBallTraitWeight:
         //do on ball action
         gameState.posessorAction =
-          onBallActions[playerData[posessingPlyr].position][
+          onBallActionsByPosition[playerData[posessingPlyr].position][
             randOnBallActionsNum
           ];
-        gameState.commentary = "On ball action!";
+        gameState.commentary = "Positional on ball action!";
 
         // setGameState((prevState) => {
         //   return {
         //     ...prevState,
         //     posessorAction:
-        //       onBallActions[playerData[posessingPlyr].position][
+        //       onBallActionsByPosition[playerData[posessingPlyr].position][
         //         randOnBallActionsNum
         //       ],
         //     commentary: "On ball action!",
@@ -195,7 +195,7 @@ function Home() {
         // });
 
         // console.log(
-        //   onBallActions[playerData[posessingPlyr].position][
+        //   onBallActionsByPosition[playerData[posessingPlyr].position][
         //     randOnBallActionsNum
         //   ]
         // );
@@ -206,7 +206,39 @@ function Home() {
     }
 
     if (gameState.posessorAction === "dribble") {
-      dribbleLogic();
+      console.log("reached");
+      let randNum = Math.floor(Math.random() * 2 + 1);
+      switch (randNum) {
+        case 1:
+          gameState.dribbleToBlock = "D10";
+          gameState.commentary = "Gerrard dribbles to his left!";
+
+          // setGameState((prevState) => {
+          //   return {
+          //     ...prevState,
+          //     dribbleToBlock: "D10",
+          //     commentary: "Gerrard dribbles to his left!",
+          //   };
+          // });
+
+          break;
+        case 2:
+          gameState.dribbleToBlock = "F10";
+          gameState.commentary = "Gerrard dribbles to his strong right foot!";
+
+          // setGameState((prevState) => {
+          //   return {
+          //     ...prevState,
+          //     dribbleToBlock: "F10",
+          //     commentary: "Gerrard dribbles to his strong right foot!",
+          //   };
+          // });
+          break;
+        default:
+          break;
+      }
+    } else {
+      gameState.dribbleToBlock = "";
     }
   }
 
@@ -214,37 +246,39 @@ function Home() {
 
   function offBallAttackerAction() {}
 
-  function dribbleLogic() {
-    let randNum = Math.floor(Math.random() * 2 + 1);
-    switch (randNum) {
-      case 1:
-        //   gameState.dribbleToBlock = "D10";
-        //   gameState.commentary = "Gerrard dribbles to his left!";
+  // function dribbleLogic() {
+  //   let randNum = Math.floor(Math.random() * 2 + 1);
+  //   switch (randNum) {
+  //     case 1:
+  //       //   gameState.dribbleToBlock = "D10";
+  //       //   gameState.commentary = "Gerrard dribbles to his left!";
 
-        setGameState((prevState) => {
-          return {
-            ...prevState,
-            dribbleToBlock: "D10",
-            commentary: "Gerrard dribbles to his left!",
-          };
-        });
+  //       setGameState((prevState) => {
+  //         return {
+  //           ...prevState,
+  //           dribbleToBlock: "D10",
+  //           commentary: "Gerrard dribbles to his left!",
+  //         };
+  //       });
 
-        break;
-      case 2:
-        setGameState((prevState) => {
-          return {
-            ...prevState,
-            dribbleToBlock: "F10",
-            commentary: "Gerrard dribbles to his strong right foot!",
-          };
-        });
-        break;
-      default:
-        break;
-    }
-  }
+  //       break;
+  //     case 2:
+  //       setGameState((prevState) => {
+  //         return {
+  //           ...prevState,
+  //           dribbleToBlock: "F10",
+  //           commentary: "Gerrard dribbles to his strong right foot!",
+  //         };
+  //       });
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 
   function gameLogic() {
+    console.log(gameState);
+
     setGameState((prevState) => {
       if (prevState.time >= 90) {
         return { ...prevState, gameOver: true };
@@ -254,13 +288,13 @@ function Home() {
       posessorAction();
       defenderAction();
 
-      if (prevState.dribbleToBlock.length > 0) {
-        return {
-          ...prevState,
-          time: prevState.time + 1,
-          dribbleToBlock: "",
-        };
-      }
+      // if (prevState.dribbleToBlock.length > 0) {
+      //   return {
+      //     ...prevState,
+      //     time: prevState.time + 1,
+      //     dribbleToBlock: "",
+      //   };
+      // }
 
       return {
         ...prevState,
@@ -275,6 +309,7 @@ function Home() {
   console.log("posessorAction: ", gameState.posessorAction);
   console.log("dribbleToBlock: ", gameState.dribbleToBlock);
   console.log("ballBlock: ", gameState.ballBlock);
+  console.log("commentary: ", gameState.commentary);
   console.log("---------------------");
 
   return (
