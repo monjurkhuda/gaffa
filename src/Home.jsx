@@ -3,6 +3,7 @@ import "./Home.css";
 import background from "./images/pitch.jpg";
 
 function Home() {
+  const [refresh, setRefresh] = useState(false);
   const [showCoordinates, setShowCoordinates] = useState(false);
   const [showPlayerDetails, setShowPlayerDetails] = useState(false);
   const [showPlayerDetailsGerrard, setShowPlayerDetailsGerrard] =
@@ -17,7 +18,7 @@ function Home() {
     gameOver: false,
     posessingTeam: "Home",
     posessingPlayer: "Gerrard",
-    posessorAction: "stall",
+    posessorAction: "",
     offBallAttacker: "",
     offBallAttackerAction: "",
     dribbleToBlock: "",
@@ -68,13 +69,13 @@ function Home() {
       mental_traits: {
         one_club_man: true,
       },
-      // on_ball_traits: ["try_killer_ball", "pass_wide"],
-      // off_ball_traits: ["run_forward"],
-      // instructions: ["shoot_long", "stall"],
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long", "stall"],
 
-      on_ball_traits: ["dribble", "dribble"],
-      off_ball_traits: ["dribble"],
-      instructions: ["dribble", "dribble"],
+      // on_ball_traits: ["dribble", "dribble"],
+      // off_ball_traits: ["dribble"],
+      // instructions: ["dribble", "dribble"],
     },
     Vidic: {
       position: "CDM",
@@ -134,14 +135,23 @@ function Home() {
         1
     );
 
-    console.log(randNum);
-
     switch (true) {
       case randNum > 0 && randNum <= instructionWeight:
         //follow an instruction
         gameState.posessorAction =
           playerData[posessingPlyr].instructions[randInstructionNum];
-        //console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
+        gameState.commentary = "Instruction followed!";
+
+        // setGameState((prevState) => {
+        //   return {
+        //     ...prevState,
+        //     posessorAction:
+        //       playerData[posessingPlyr].instructions[randInstructionNum],
+        //     commentary: "Instruction followed!",
+        //   };
+        // });
+
+        // console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
         break;
 
       case randNum > instructionWeight &&
@@ -149,6 +159,16 @@ function Home() {
         //follow an on ball trait
         gameState.posessorAction =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
+        gameState.commentary = "On ball trait!";
+
+        // setGameState((prevState) => {
+        //   return {
+        //     ...prevState,
+        //     posessorAction:
+        //       playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum],
+        //     commentary: "On ball trait!",
+        //   };
+        // });
 
         // console.log(
         //   playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum]
@@ -161,6 +181,18 @@ function Home() {
           onBallActions[playerData[posessingPlyr].position][
             randOnBallActionsNum
           ];
+        gameState.commentary = "On ball action!";
+
+        // setGameState((prevState) => {
+        //   return {
+        //     ...prevState,
+        //     posessorAction:
+        //       onBallActions[playerData[posessingPlyr].position][
+        //         randOnBallActionsNum
+        //       ],
+        //     commentary: "On ball action!",
+        //   };
+        // });
 
         // console.log(
         //   onBallActions[playerData[posessingPlyr].position][
@@ -173,8 +205,6 @@ function Home() {
         break;
     }
 
-    console.log(gameState.posessorAction);
-
     if (gameState.posessorAction === "dribble") {
       dribbleLogic();
     }
@@ -186,9 +216,11 @@ function Home() {
 
   function dribbleLogic() {
     let randNum = Math.floor(Math.random() * 2 + 1);
-    console.log("dribble logic executed", randNum);
     switch (randNum) {
       case 1:
+        //   gameState.dribbleToBlock = "D10";
+        //   gameState.commentary = "Gerrard dribbles to his left!";
+
         setGameState((prevState) => {
           return {
             ...prevState,
@@ -196,6 +228,7 @@ function Home() {
             commentary: "Gerrard dribbles to his left!",
           };
         });
+
         break;
       case 2:
         setGameState((prevState) => {
@@ -211,38 +244,7 @@ function Home() {
     }
   }
 
-  // const gameLogic = () => {
-  //   if (gameState.gameOver) return;
-
-  //   setGameState((prevState) => {
-  //     if (prevState.time >= 4) {
-  //       return { ...prevState, gameOver: true };
-  //     }
-
-  //     let randNum = Math.floor(Math.random() * 10000 + 1);
-
-  //     console.log(randNum);
-
-  //     gameLogic();
-
-  //     posessorAction(gameState);
-
-  //     return {
-  //       ...prevState,
-  //       time: prevState.time + 1,
-  //     };
-  //   });
-  // };
-
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  async function gameLogic() {
-    // if (!gameState.gameOver) {
-    //   await sleep(2000);
-    // }
-
+  function gameLogic() {
     setGameState((prevState) => {
       if (prevState.time >= 90) {
         return { ...prevState, gameOver: true };
@@ -257,7 +259,6 @@ function Home() {
           ...prevState,
           time: prevState.time + 1,
           dribbleToBlock: "",
-          commentary: "",
         };
       }
 
@@ -268,10 +269,13 @@ function Home() {
     });
   }
 
-  // useEffect(() => {}, [gameState]);
+  //useEffect(() => {}, [gameState]);
 
   // console.log(gameState.dribbleToBlock);
-  console.log(gameState);
+  console.log("posessorAction: ", gameState.posessorAction);
+  console.log("dribbleToBlock: ", gameState.dribbleToBlock);
+  console.log("ballBlock: ", gameState.ballBlock);
+  console.log("---------------------");
 
   return (
     <div>
@@ -614,44 +618,45 @@ function Home() {
               <></>
             )}
 
-            {gameState.ballBlock !== "E09" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_standing_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : gameState.posessorAction === "shoot_long" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_longshot_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : gameState.posessorAction === "stall" ||
-              gameState.posessorAction === "try_killer_ball" ||
-              gameState.posessorAction === "pass_back" ||
-              gameState.posessorAction === "pass_wide" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_posession_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : gameState.posessorAction === "try_killer_ball" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_posession_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : (
-              <></>
-            )}
+            {gameState.ballBlock === "E09" &&
+              (gameState.posessorAction === "" ? (
+                <img
+                  className="player_avatar"
+                  src={require("./images/gerrad_standing_left.png")}
+                  onClick={() =>
+                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                  }
+                />
+              ) : gameState.posessorAction === "shoot_long" ? (
+                <img
+                  className="player_avatar"
+                  src={require("./images/gerrad_longshot_left.png")}
+                  onClick={() =>
+                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                  }
+                />
+              ) : gameState.posessorAction === "stall" ||
+                gameState.posessorAction === "try_killer_ball" ||
+                gameState.posessorAction === "pass_back" ||
+                gameState.posessorAction === "pass_wide" ? (
+                <img
+                  className="player_avatar"
+                  src={require("./images/gerrad_posession_left.png")}
+                  onClick={() =>
+                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                  }
+                />
+              ) : gameState.posessorAction === "try_killer_ball" ? (
+                <img
+                  className="player_avatar"
+                  src={require("./images/gerrad_posession_left.png")}
+                  onClick={() =>
+                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+                  }
+                />
+              ) : (
+                <></>
+              ))}
 
             {/* {gameState.posessingPlayer === "Gerrard" ? (
               <img
