@@ -55,6 +55,7 @@ function Home() {
   let playerData = {
     Gerrard: {
       position: "CAM",
+      zone: "Mid",
       first_touch: 18,
       stamina: 20,
       passing: 19,
@@ -83,6 +84,30 @@ function Home() {
       aggression: 18,
       stamina: 16,
     },
+    Matic: {
+      position: "CDM",
+      strenght: 18,
+      aggression: 18,
+      stamina: 16,
+    },
+    Keane: {
+      position: "CDM",
+      strenght: 18,
+      aggression: 18,
+      stamina: 16,
+    },
+    VanDijk: {
+      position: "RCM",
+      strenght: 18,
+      aggression: 18,
+      stamina: 16,
+    },
+    Gullit: {
+      position: "LCM",
+      strenght: 18,
+      aggression: 18,
+      stamina: 16,
+    },
   };
 
   let onBallActionsByPosition = {
@@ -92,11 +117,19 @@ function Home() {
 
   let lineupData = {
     Home: {
-      Gerrard: "CAM",
+      Mid: {
+        RDM: "VanDijk",
+        LDM: "Gullit",
+        CAM: "Gerrard",
+      },
     },
 
     Away: {
-      Vidic: "CDM",
+      Mid: {
+        CDM: "Vidic",
+        RCM: "Matic",
+        LCM: "Keane",
+      },
     },
   };
 
@@ -112,22 +145,12 @@ function Home() {
     let randOnBallTraitNum = Math.floor(Math.random() * onBallTraitObjLength);
 
     let onBallActionsLength =
-      onBallActionsByPosition[lineupData.Home[posessingPlyr]].length;
+      onBallActionsByPosition[playerData[posessingPlyr].position].length;
     let randOnBallActionsNum = Math.floor(Math.random() * onBallActionsLength);
     let onBallActionsWeight =
       onBallActionsLength > 0
         ? onBallActionsLength * 5
         : onBallActionsLength * 5;
-
-    // console.log(
-    //   instructionWeight,
-    //   onBallTraitWeight,
-    //   onBallActionsWeight,
-    //   randInstructionNum,
-    //   randOnBallTraitNum,
-    //   randOnBallActionsNum,
-    //   gameState
-    // );
 
     let randNum = Math.floor(
       Math.random() *
@@ -242,7 +265,53 @@ function Home() {
     }
   }
 
-  function defenderAction() {}
+  // 3 - 2 - 5;
+  // 3 - 3 - 4;
+  // 3 - 5 - 2;
+  // 3 - 4 - 3;
+
+  // 4 - 1 - 5;
+  // 4 - 2 - 4;
+  // 4 - 3 - 3;
+  // 4 - 4 - 2;
+  // 4 - 5 - 1;
+
+  // 5 - 1 - 4;
+  // 5 - 2 - 3;
+  // 5 - 3 - 2;
+  // 5 - 4 - 1;
+
+  // 4 - 1 - 3 - 2;
+  // 4 - 1 - 4 - 1;
+  // 4 - 2 - 3 - 1;
+  // 4 - 3 - 1 - 2;
+  // 4 - 3 - 2 - 1;
+  // 4 - 4 - 1 - 1;
+
+  // 4 - 1 - 2 - 1 - 2;
+
+  function defenderAction() {
+    let posessingTeam = gameState.posessingTeam;
+    let defendingTeam = posessingTeam === "Home" ? "Away" : "Home";
+    let posessingPlayerZone = playerData[gameState.posessingPlayer].zone;
+    let defendersInZone = Object.keys(
+      lineupData[defendingTeam][posessingPlayerZone]
+    ).length;
+    let defendingPlayer;
+
+    let randDefenderNum = Math.floor(Math.random() * defendersInZone + 1);
+
+    let keys = Object.keys(lineupData[defendingTeam][posessingPlayerZone]);
+
+    let count = 1;
+    for (let key in lineupData[defendingTeam][posessingPlayerZone]) {
+      if (count === randDefenderNum) {
+        defendingPlayer = lineupData[defendingTeam][posessingPlayerZone][key];
+        return;
+      }
+      count++;
+    }
+  }
 
   function offBallAttackerAction() {}
 
@@ -277,8 +346,6 @@ function Home() {
   // }
 
   function gameLogic() {
-    console.log(gameState);
-
     setGameState((prevState) => {
       if (prevState.time >= 90) {
         return { ...prevState, gameOver: true };
