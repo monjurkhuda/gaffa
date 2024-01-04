@@ -2,6 +2,31 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import background from "./images/pitch.jpg";
 
+// 3 - 2 - 5;
+// 3 - 3 - 4;
+// 3 - 5 - 2;
+// 3 - 4 - 3;
+
+// 4 - 1 - 5;
+// 4 - 2 - 4;
+// 4 - 3 - 3;
+// 4 - 4 - 2;
+// 4 - 5 - 1;
+
+// 5 - 1 - 4;
+// 5 - 2 - 3;
+// 5 - 3 - 2;
+// 5 - 4 - 1;
+
+// 4 - 1 - 3 - 2;
+// 4 - 1 - 4 - 1;
+// 4 - 2 - 3 - 1;
+// 4 - 3 - 1 - 2;
+// 4 - 3 - 2 - 1;
+// 4 - 4 - 1 - 1;
+
+// 4 - 1 - 2 - 1 - 2;
+
 function Home() {
   const [refresh, setRefresh] = useState(false);
   const [showCoordinates, setShowCoordinates] = useState(false);
@@ -19,6 +44,7 @@ function Home() {
     posessingTeam: "Home",
     posessingPlayer: "Gerrard",
     posessorAction: "",
+    success_chance: 0,
     offBallAttacker: "",
     offBallAttackerAction: "",
     dribbleToBlock: "",
@@ -64,6 +90,7 @@ function Home() {
       dribbling: 16,
       trusts_manager: 10,
       decisions: 18,
+      man_marked_by: "Vidic",
       personal_traits: {
         one_club_man: true,
       },
@@ -80,33 +107,38 @@ function Home() {
     },
     Vidic: {
       position: "CDM",
-      strenght: 18,
+      strength: 18,
       aggression: 18,
       stamina: 16,
+      marking: 20,
     },
     Matic: {
       position: "CDM",
-      strenght: 18,
+      strength: 18,
       aggression: 18,
       stamina: 16,
+      marking: 14,
     },
     Keane: {
       position: "CDM",
-      strenght: 18,
+      strength: 18,
       aggression: 18,
       stamina: 16,
+      marking: 16,
     },
     VanDijk: {
       position: "RCM",
-      strenght: 18,
+      strength: 18,
       aggression: 18,
       stamina: 16,
+      marking: 18,
     },
     Gullit: {
       position: "LCM",
-      strenght: 18,
+      strength: 18,
       aggression: 18,
       stamina: 16,
+      marking: 17,
     },
   };
 
@@ -164,17 +196,6 @@ function Home() {
         gameState.posessorAction =
           playerData[posessingPlyr].instructions[randInstructionNum];
         gameState.commentary = "Instruction followed!";
-
-        // setGameState((prevState) => {
-        //   return {
-        //     ...prevState,
-        //     posessorAction:
-        //       playerData[posessingPlyr].instructions[randInstructionNum],
-        //     commentary: "Instruction followed!",
-        //   };
-        // });
-
-        // console.log(playerData[posessingPlyr].instructions[randInstructionNum]);
         break;
 
       case randNum > instructionWeight &&
@@ -183,19 +204,6 @@ function Home() {
         gameState.posessorAction =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
         gameState.commentary = "Player on ball trait!";
-
-        // setGameState((prevState) => {
-        //   return {
-        //     ...prevState,
-        //     posessorAction:
-        //       playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum],
-        //     commentary: "On ball trait!",
-        //   };
-        // });
-
-        // console.log(
-        //   playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum]
-        // );
         break;
 
       case randNum > instructionWeight + onBallTraitWeight:
@@ -205,23 +213,6 @@ function Home() {
             randOnBallActionsNum
           ];
         gameState.commentary = "Positional on ball action!";
-
-        // setGameState((prevState) => {
-        //   return {
-        //     ...prevState,
-        //     posessorAction:
-        //       onBallActionsByPosition[playerData[posessingPlyr].position][
-        //         randOnBallActionsNum
-        //       ],
-        //     commentary: "On ball action!",
-        //   };
-        // });
-
-        // console.log(
-        //   onBallActionsByPosition[playerData[posessingPlyr].position][
-        //     randOnBallActionsNum
-        //   ]
-        // );
         break;
 
       default:
@@ -229,34 +220,19 @@ function Home() {
     }
 
     if (gameState.posessorAction === "dribble") {
-      console.log("reached");
       let randNum = Math.floor(Math.random() * 2 + 1);
+
       switch (randNum) {
         case 1:
           gameState.dribbleToBlock = "D10";
           gameState.commentary = "Gerrard dribbles to his left!";
-
-          // setGameState((prevState) => {
-          //   return {
-          //     ...prevState,
-          //     dribbleToBlock: "D10",
-          //     commentary: "Gerrard dribbles to his left!",
-          //   };
-          // });
-
           break;
+
         case 2:
           gameState.dribbleToBlock = "F10";
           gameState.commentary = "Gerrard dribbles to his strong right foot!";
-
-          // setGameState((prevState) => {
-          //   return {
-          //     ...prevState,
-          //     dribbleToBlock: "F10",
-          //     commentary: "Gerrard dribbles to his strong right foot!",
-          //   };
-          // });
           break;
+
         default:
           break;
       }
@@ -265,85 +241,69 @@ function Home() {
     }
   }
 
-  // 3 - 2 - 5;
-  // 3 - 3 - 4;
-  // 3 - 5 - 2;
-  // 3 - 4 - 3;
-
-  // 4 - 1 - 5;
-  // 4 - 2 - 4;
-  // 4 - 3 - 3;
-  // 4 - 4 - 2;
-  // 4 - 5 - 1;
-
-  // 5 - 1 - 4;
-  // 5 - 2 - 3;
-  // 5 - 3 - 2;
-  // 5 - 4 - 1;
-
-  // 4 - 1 - 3 - 2;
-  // 4 - 1 - 4 - 1;
-  // 4 - 2 - 3 - 1;
-  // 4 - 3 - 1 - 2;
-  // 4 - 3 - 2 - 1;
-  // 4 - 4 - 1 - 1;
-
-  // 4 - 1 - 2 - 1 - 2;
-
   function defenderAction() {
     let posessingTeam = gameState.posessingTeam;
     let defendingTeam = posessingTeam === "Home" ? "Away" : "Home";
-    let posessingPlayerZone = playerData[gameState.posessingPlayer].zone;
-    let defendersInZone = Object.keys(
-      lineupData[defendingTeam][posessingPlayerZone]
-    ).length;
     let defendingPlayer;
+    gameState.success_chance = 0;
 
-    let randDefenderNum = Math.floor(Math.random() * defendersInZone + 1);
+    if (playerData[gameState.posessingPlayer].man_marked_by) {
+      defendingPlayer = playerData[gameState.posessingPlayer].man_marked_by;
+    } else {
+      let posessingPlayerZone = playerData[gameState.posessingPlayer].zone;
+      let defendersInZone = Object.keys(
+        lineupData[defendingTeam][posessingPlayerZone]
+      ).length;
 
-    let keys = Object.keys(lineupData[defendingTeam][posessingPlayerZone]);
+      let randDefenderNum = Math.floor(Math.random() * defendersInZone + 1);
+      let count = 1;
 
-    let count = 1;
-    for (let key in lineupData[defendingTeam][posessingPlayerZone]) {
-      if (count === randDefenderNum) {
-        defendingPlayer = lineupData[defendingTeam][posessingPlayerZone][key];
-        return;
+      for (let key in lineupData[defendingTeam][posessingPlayerZone]) {
+        if (count === randDefenderNum) {
+          defendingPlayer = lineupData[defendingTeam][posessingPlayerZone][key];
+          return;
+        }
+        count++;
       }
-      count++;
+    }
+
+    let posessorActn = gameState.posessorAction;
+
+    switch (posessorActn) {
+      case "pass_back":
+        gameState.success_chance += 90;
+        break;
+
+      case "dribble":
+        if (
+          playerData[gameState.posessingPlayer].dribbling >=
+          playerData[defendingPlayer].marking
+        ) {
+          gameState.success_chance += 15;
+        }
+
+        if (
+          playerData[gameState.posessingPlayer].decisions >=
+          playerData[defendingPlayer].aggression
+        ) {
+          gameState.success_chance += 15;
+        }
+
+        if (
+          playerData[gameState.posessingPlayer].first_touch >=
+          playerData[defendingPlayer].strength
+        ) {
+          gameState.success_chance += 15;
+        }
+        break;
+
+      default:
+        gameState.success_chance += 5;
+        break;
     }
   }
 
   function offBallAttackerAction() {}
-
-  // function dribbleLogic() {
-  //   let randNum = Math.floor(Math.random() * 2 + 1);
-  //   switch (randNum) {
-  //     case 1:
-  //       //   gameState.dribbleToBlock = "D10";
-  //       //   gameState.commentary = "Gerrard dribbles to his left!";
-
-  //       setGameState((prevState) => {
-  //         return {
-  //           ...prevState,
-  //           dribbleToBlock: "D10",
-  //           commentary: "Gerrard dribbles to his left!",
-  //         };
-  //       });
-
-  //       break;
-  //     case 2:
-  //       setGameState((prevState) => {
-  //         return {
-  //           ...prevState,
-  //           dribbleToBlock: "F10",
-  //           commentary: "Gerrard dribbles to his strong right foot!",
-  //         };
-  //       });
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
 
   function gameLogic() {
     setGameState((prevState) => {
@@ -355,13 +315,16 @@ function Home() {
       posessorAction();
       defenderAction();
 
-      // if (prevState.dribbleToBlock.length > 0) {
-      //   return {
-      //     ...prevState,
-      //     time: prevState.time + 1,
-      //     dribbleToBlock: "",
-      //   };
-      // }
+      if (gameState.success_chance > 100) {
+        console.log("error: sucess rate over 100");
+      }
+
+      let randomSuccess = Math.floor(Math.random() * 100);
+      if (randomSuccess <= gameState.success_chance) {
+        console.log(gameState.posessorAction, "Success!", randomSuccess);
+      } else {
+        console.log(gameState.posessorAction, "Failure!", randomSuccess);
+      }
 
       return {
         ...prevState,
@@ -370,13 +333,11 @@ function Home() {
     });
   }
 
-  //useEffect(() => {}, [gameState]);
-
-  // console.log(gameState.dribbleToBlock);
   console.log("posessorAction: ", gameState.posessorAction);
   console.log("dribbleToBlock: ", gameState.dribbleToBlock);
   console.log("ballBlock: ", gameState.ballBlock);
   console.log("commentary: ", gameState.commentary);
+  console.log("success_chance: ", gameState.success_chance);
   console.log("---------------------");
 
   return (
