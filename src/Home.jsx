@@ -357,17 +357,50 @@ function Home() {
         }}
       >
         <div className="pitch_container">
-          {/* <div className="pitch_block has_border left_border bottom_border">
-            {showCoordinates && <div className="coordinates">00</div>}
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-          </div> */}
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              top: "60px",
+              left: "20px",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "sans-sherif",
+                fontSize: "larger",
+                backgroundColor: "red",
+                padding: "6px",
+              }}
+            >
+              RED {gameState.homeScore}
+            </div>
+            <div
+              style={{
+                fontFamily: "sans-sherif",
+                fontSize: "larger",
+                padding: "6px",
+                backgroundColor: "blue",
+              }}
+            >
+              BLU {gameState.awayScore}
+            </div>
+            <div
+              style={{
+                fontFamily: "monospace",
+                fontSize: "larger",
+                padding: "6px",
+                color: "black",
+                backgroundColor: "white",
+              }}
+            >
+              {gameState.time}'
+            </div>
+          </div>
 
-          <p style={{ position: "absolute", top: "190px" }}>
-            {gameState.time}'
-          </p>
+          <div style={{ display: "flex", position: "absolute", top: "190px" }}>
+            <p>{gameState.time}'</p>
+          </div>
 
           <div className="pitch_block">
             <img
