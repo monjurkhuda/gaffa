@@ -42,11 +42,13 @@ function Home() {
     awayScore: 0,
     gameOver: false,
     posessingTeam: "Home",
+    offBallAttacker: "",
+    offBallAttackerAction: "",
     posessingPlayer: "Gerrard",
     posessorAction: "",
     success_chance: 0,
-    offBallAttacker: "",
-    offBallAttackerAction: "",
+    defendingPlayer: "",
+    defenderActionAction: "",
     dribbleToBlock: "",
     ballBlock: "E09",
     commentary: "Kick off!",
@@ -90,7 +92,7 @@ function Home() {
       dribbling: 16,
       trusts_manager: 10,
       decisions: 18,
-      man_marked_by: "Vidic",
+      man_marked_by: "",
       personal_traits: {
         one_club_man: true,
       },
@@ -113,18 +115,18 @@ function Home() {
       marking: 20,
     },
     Matic: {
-      position: "CDM",
+      position: "RCM",
       strength: 18,
       aggression: 18,
       stamina: 16,
       marking: 14,
     },
-    Keane: {
-      position: "CDM",
-      strength: 18,
-      aggression: 18,
-      stamina: 16,
-      marking: 16,
+    Fred: {
+      position: "LCM",
+      strength: 2,
+      aggression: 2,
+      stamina: 2,
+      marking: 2,
     },
     VanDijk: {
       position: "RCM",
@@ -160,7 +162,7 @@ function Home() {
       Mid: {
         CDM: "Vidic",
         RCM: "Matic",
-        LCM: "Keane",
+        LCM: "Fred",
       },
     },
   };
@@ -261,10 +263,12 @@ function Home() {
       for (let key in lineupData[defendingTeam][posessingPlayerZone]) {
         if (count === randDefenderNum) {
           defendingPlayer = lineupData[defendingTeam][posessingPlayerZone][key];
-          return;
+          break;
         }
         count++;
       }
+
+      console.log(defendingPlayer);
     }
 
     let posessorActn = gameState.posessorAction;
@@ -307,7 +311,7 @@ function Home() {
 
   function gameLogic() {
     setGameState((prevState) => {
-      if (prevState.time >= 90) {
+      if (prevState.time >= 5400) {
         return { ...prevState, gameOver: true };
       }
 
@@ -338,6 +342,7 @@ function Home() {
   console.log("ballBlock: ", gameState.ballBlock);
   console.log("commentary: ", gameState.commentary);
   console.log("success_chance: ", gameState.success_chance);
+  console.log("seconds: ", gameState.time);
   console.log("---------------------");
 
   return (
@@ -361,45 +366,50 @@ function Home() {
             style={{
               display: "flex",
               position: "absolute",
-              top: "60px",
-              left: "20px",
+              top: "200px",
             }}
           >
-            <div
+            <p
               style={{
-                fontFamily: "sans-sherif",
-                fontSize: "larger",
+                paddingLeft: "10px",
+                paddingRight: "10px",
                 backgroundColor: "red",
-                padding: "6px",
+                fontSize: "medium",
+                border: "1px white solid",
               }}
             >
-              RED {gameState.homeScore}
-            </div>
-            <div
+              LIV {gameState.homeScore}
+            </p>
+            <p
               style={{
-                fontFamily: "sans-sherif",
-                fontSize: "larger",
-                padding: "6px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
                 backgroundColor: "blue",
+                fontSize: "medium",
+                border: "1px white solid",
               }}
             >
-              BLU {gameState.awayScore}
-            </div>
-            <div
+              CHE {gameState.awayScore}
+            </p>
+            <p
               style={{
-                fontFamily: "monospace",
-                fontSize: "larger",
-                padding: "6px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
                 color: "black",
                 backgroundColor: "white",
+                fontSize: "medium",
+                fontWeight: "700",
+                border: "1px white solid",
               }}
             >
-              {gameState.time}'
-            </div>
-          </div>
-
-          <div style={{ display: "flex", position: "absolute", top: "190px" }}>
-            <p>{gameState.time}'</p>
+              {Math.floor(gameState.time / 60) < 10
+                ? "0" + Math.floor(gameState.time / 60)
+                : Math.floor(gameState.time / 60)}
+              {" : "}
+              {gameState.time % 60 < 10
+                ? "0" + (gameState.time % 60)
+                : gameState.time % 60}
+            </p>
           </div>
 
           <div className="pitch_block">
