@@ -44,15 +44,23 @@ function Home() {
     away_score: 0,
     game_over: false,
     posessing_team: "Home",
+
     off_ball_attacker: "",
     off_ball_attacker_action: "",
+
+    ball_block: "E09",
     posessing_player: "Gerrard",
     posessor_action: "",
+    dribble_to_block: "",
     success_chance: 0,
+
+    defender_block: "",
     defending_player: "",
     defender_action: "",
-    dribble_to_block: "",
-    ball_block: "E09",
+    defender_action_block: "",
+
+    phase_result: "",
+
     commentary: "Kick off!",
   });
 
@@ -85,6 +93,7 @@ function Home() {
   let playerData = {
     Gerrard: {
       position: "CAM",
+      ball_block: "E09",
       zone: "Mid",
       first_touch: 18,
       stamina: 20,
@@ -111,6 +120,7 @@ function Home() {
     },
     Vidic: {
       position: "CDM",
+      ball_block: "E10",
       strength: 18,
       aggression: 18,
       stamina: 16,
@@ -118,6 +128,7 @@ function Home() {
     },
     Matic: {
       position: "RCM",
+      ball_block: "C08",
       strength: 18,
       aggression: 18,
       stamina: 16,
@@ -125,6 +136,7 @@ function Home() {
     },
     Fred: {
       position: "LCM",
+      ball_block: "G08",
       strength: 2,
       aggression: 2,
       stamina: 2,
@@ -132,6 +144,7 @@ function Home() {
     },
     VanDijk: {
       position: "RCM",
+      ball_block: "F07",
       strength: 18,
       aggression: 18,
       stamina: 16,
@@ -139,6 +152,7 @@ function Home() {
     },
     Gullit: {
       position: "LCM",
+      ball_block: "D07",
       strength: 18,
       aggression: 18,
       stamina: 16,
@@ -154,8 +168,8 @@ function Home() {
   let lineupData = {
     Home: {
       Mid: {
-        RDM: "VanDijk",
-        LDM: "Gullit",
+        RCM: "VanDijk",
+        LCM: "Gullit",
         CAM: "Gerrard",
       },
     },
@@ -170,11 +184,14 @@ function Home() {
   };
 
   function offBallAttackerAction() {
-    console.log("off_ball");
+    gameState.defending_player = "";
+    gameState.defender_block = "";
+    gameState.defender_action = "";
+    gameState.defender_action_block = "";
+    gameState.phase_result = "";
   }
 
   function posessorAction() {
-    console.log("pos");
     let posessingPlyr = gameState.posessing_player;
 
     let instructionWeight = playerData[posessingPlyr].trusts_manager;
@@ -277,6 +294,9 @@ function Home() {
       }
     }
 
+    gameState.defending_player = defendingPlayer;
+    gameState.defender_block = playerData[defendingPlayer].ball_block;
+
     let posessorActn = gameState.posessor_action;
 
     switch (posessorActn) {
@@ -311,6 +331,45 @@ function Home() {
         gameState.success_chance += 5;
         break;
     }
+
+    let randomSuccess = Math.floor(Math.random() * 100);
+
+    let defenderDecision = Math.floor(Math.random() * 2 + 1);
+
+    switch (defenderDecision) {
+      case 1:
+        gameState.defender_action = "tackle";
+
+        if (randomSuccess <= gameState.success_chance) {
+          //console.log(gameState.posessor_action, "Success!", randomSuccess);
+          gameState.commentary = "Vidic wins the tackle!";
+          gameState.phase_result = "defender_wins_tackle";
+          if (gameState.dribble_to_block) {
+            gameState.defender_action_block = gameState.dribble_to_block;
+          } else {
+            gameState.defender_action_block = gameState.ball_block;
+          }
+        } else {
+          //console.log(gameState.posessor_action, "Failure!", randomSuccess);
+          gameState.commentary = "Gerrard hops the tackle from Vidic!";
+          gameState.phase_result = "attacker_hops_tackle";
+          if (gameState.dribble_to_block) {
+            gameState.defender_action_block = gameState.dribble_to_block;
+          } else {
+            gameState.defender_action_block = gameState.ball_block;
+          }
+        }
+
+        break;
+
+      case 2:
+        gameState.defender_action = "contain";
+        gameState.commentary = "Vidic stands back.";
+        break;
+
+      default:
+        break;
+    }
   }
 
   function gameLogic() {
@@ -339,13 +398,6 @@ function Home() {
         console.log("error: sucess rate over 100");
       }
 
-      let randomSuccess = Math.floor(Math.random() * 100);
-      if (randomSuccess <= gameState.success_chance) {
-        //console.log(gameState.posessor_action, "Success!", randomSuccess);
-      } else {
-        //console.log(gameState.posessor_action, "Failure!", randomSuccess);
-      }
-
       return {
         ...prevState,
         game_phase: nextGameState,
@@ -354,13 +406,18 @@ function Home() {
     });
   }
 
-  // console.log("posessorAction: ", gameState.posessor_action);
-  // console.log("dribbleToBlock: ", gameState.dribble_to_block);
-  // console.log("ballBlock: ", gameState.ball_block);
-  // console.log("commentary: ", gameState.commentary);
-  // console.log("success_chance: ", gameState.success_chance);
-  // console.log("seconds: ", gameState.time);
-  // console.log("---------------------");
+  console.log("posessorAction: ", gameState.posessor_action);
+  console.log("dribbleToBlock: ", gameState.dribble_to_block);
+  console.log("ballBlock: ", gameState.ball_block);
+  console.log("commentary: ", gameState.commentary);
+  console.log("success_chance: ", gameState.success_chance);
+  console.log("seconds: ", gameState.time);
+  console.log("defender_block: ", gameState.defender_block);
+  console.log("defending_player: ", gameState.defending_player);
+  console.log("defender_action: ", gameState.defender_action);
+  console.log("defender_action_block: ", gameState.defender_action_block);
+  console.log("phase_result: ", gameState.phase_result);
+  console.log("---------------------");
 
   return (
     <div>
@@ -794,10 +851,16 @@ function Home() {
           </div>
 
           <div className="pitch_block">
-            <img
-              src={require("./images/vidic_standing_right.png")}
-              width={"50px"}
-            />
+            {gameState.defender_block !== "E10" &&
+            gameState.defender_action_block.length < 1 ? (
+              <img
+                src={require("./images/vidic_standing_right.png")}
+                width={"50px"}
+              />
+            ) : (
+              <></>
+            )}
+
             {showCoordinates && <div className="coordinates">E10</div>}
           </div>
           <div className="pitch_block">
