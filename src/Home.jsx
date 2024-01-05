@@ -35,22 +35,24 @@ function Home() {
     useState(false);
 
   const [gameState, setGameState] = useState({
+    game_phase: "kickoff",
+    //time: 5280,
     time: 0,
-    homeForm: 4231,
-    awayForm: 532,
-    homeScore: 0,
-    awayScore: 0,
-    gameOver: false,
-    posessingTeam: "Home",
-    offBallAttacker: "",
-    offBallAttackerAction: "",
-    posessingPlayer: "Gerrard",
-    posessorAction: "",
+    home_form: 4231,
+    away_form: 532,
+    home_score: 0,
+    away_score: 0,
+    game_over: false,
+    posessing_team: "Home",
+    off_ball_attacker: "",
+    off_ball_attacker_action: "",
+    posessing_player: "Gerrard",
+    posessor_action: "",
     success_chance: 0,
-    defendingPlayer: "",
-    defenderActionAction: "",
-    dribbleToBlock: "",
-    ballBlock: "E09",
+    defending_player: "",
+    defender_action: "",
+    dribble_to_block: "",
+    ball_block: "E09",
     commentary: "Kick off!",
   });
 
@@ -167,8 +169,13 @@ function Home() {
     },
   };
 
+  function offBallAttackerAction() {
+    console.log("off_ball");
+  }
+
   function posessorAction() {
-    let posessingPlyr = gameState.posessingPlayer;
+    console.log("pos");
+    let posessingPlyr = gameState.posessing_player;
 
     let instructionWeight = playerData[posessingPlyr].trusts_manager;
     let instructionLength = playerData[posessingPlyr].instructions.length;
@@ -195,7 +202,7 @@ function Home() {
     switch (true) {
       case randNum > 0 && randNum <= instructionWeight:
         //follow an instruction
-        gameState.posessorAction =
+        gameState.posessor_action =
           playerData[posessingPlyr].instructions[randInstructionNum];
         gameState.commentary = "Instruction followed!";
         break;
@@ -203,14 +210,14 @@ function Home() {
       case randNum > instructionWeight &&
         randNum <= instructionWeight + onBallTraitWeight:
         //follow an on ball trait
-        gameState.posessorAction =
+        gameState.posessor_action =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
         gameState.commentary = "Player on ball trait!";
         break;
 
       case randNum > instructionWeight + onBallTraitWeight:
         //do on ball action
-        gameState.posessorAction =
+        gameState.posessor_action =
           onBallActionsByPosition[playerData[posessingPlyr].position][
             randOnBallActionsNum
           ];
@@ -221,17 +228,17 @@ function Home() {
         break;
     }
 
-    if (gameState.posessorAction === "dribble") {
+    if (gameState.posessor_action === "dribble") {
       let randNum = Math.floor(Math.random() * 2 + 1);
 
       switch (randNum) {
         case 1:
-          gameState.dribbleToBlock = "D10";
+          gameState.dribble_to_block = "D10";
           gameState.commentary = "Gerrard dribbles to his left!";
           break;
 
         case 2:
-          gameState.dribbleToBlock = "F10";
+          gameState.dribble_to_block = "F10";
           gameState.commentary = "Gerrard dribbles to his strong right foot!";
           break;
 
@@ -239,20 +246,21 @@ function Home() {
           break;
       }
     } else {
-      gameState.dribbleToBlock = "";
+      gameState.dribble_to_block = "";
     }
   }
 
   function defenderAction() {
-    let posessingTeam = gameState.posessingTeam;
+    console.log("def");
+    let posessingTeam = gameState.posessing_team;
     let defendingTeam = posessingTeam === "Home" ? "Away" : "Home";
     let defendingPlayer;
     gameState.success_chance = 0;
 
-    if (playerData[gameState.posessingPlayer].man_marked_by) {
-      defendingPlayer = playerData[gameState.posessingPlayer].man_marked_by;
+    if (playerData[gameState.posessing_player].man_marked_by) {
+      defendingPlayer = playerData[gameState.posessing_player].man_marked_by;
     } else {
-      let posessingPlayerZone = playerData[gameState.posessingPlayer].zone;
+      let posessingPlayerZone = playerData[gameState.posessing_player].zone;
       let defendersInZone = Object.keys(
         lineupData[defendingTeam][posessingPlayerZone]
       ).length;
@@ -267,11 +275,9 @@ function Home() {
         }
         count++;
       }
-
-      console.log(defendingPlayer);
     }
 
-    let posessorActn = gameState.posessorAction;
+    let posessorActn = gameState.posessor_action;
 
     switch (posessorActn) {
       case "pass_back":
@@ -280,21 +286,21 @@ function Home() {
 
       case "dribble":
         if (
-          playerData[gameState.posessingPlayer].dribbling >=
+          playerData[gameState.posessing_player].dribbling >=
           playerData[defendingPlayer].marking
         ) {
           gameState.success_chance += 15;
         }
 
         if (
-          playerData[gameState.posessingPlayer].decisions >=
+          playerData[gameState.posessing_player].decisions >=
           playerData[defendingPlayer].aggression
         ) {
           gameState.success_chance += 15;
         }
 
         if (
-          playerData[gameState.posessingPlayer].first_touch >=
+          playerData[gameState.posessing_player].first_touch >=
           playerData[defendingPlayer].strength
         ) {
           gameState.success_chance += 15;
@@ -307,17 +313,27 @@ function Home() {
     }
   }
 
-  function offBallAttackerAction() {}
-
   function gameLogic() {
     setGameState((prevState) => {
       if (prevState.time >= 5400) {
-        return { ...prevState, gameOver: true };
+        return { ...prevState, game_over: true };
       }
 
-      offBallAttackerAction();
-      posessorAction();
-      defenderAction();
+      let nextGameState;
+
+      if (
+        gameState.game_phase === "kickoff" ||
+        gameState.game_phase === "off_ball_action"
+      ) {
+        offBallAttackerAction();
+        nextGameState = "posessor_action";
+      } else if (gameState.game_phase === "posessor_action") {
+        posessorAction();
+        nextGameState = "defender_action";
+      } else if (gameState.game_phase === "defender_action") {
+        defenderAction();
+        nextGameState = "off_ball_action";
+      }
 
       if (gameState.success_chance > 100) {
         console.log("error: sucess rate over 100");
@@ -325,25 +341,26 @@ function Home() {
 
       let randomSuccess = Math.floor(Math.random() * 100);
       if (randomSuccess <= gameState.success_chance) {
-        console.log(gameState.posessorAction, "Success!", randomSuccess);
+        //console.log(gameState.posessor_action, "Success!", randomSuccess);
       } else {
-        console.log(gameState.posessorAction, "Failure!", randomSuccess);
+        //console.log(gameState.posessor_action, "Failure!", randomSuccess);
       }
 
       return {
         ...prevState,
-        time: prevState.time + 1,
+        game_phase: nextGameState,
+        time: prevState.time + 30,
       };
     });
   }
 
-  console.log("posessorAction: ", gameState.posessorAction);
-  console.log("dribbleToBlock: ", gameState.dribbleToBlock);
-  console.log("ballBlock: ", gameState.ballBlock);
-  console.log("commentary: ", gameState.commentary);
-  console.log("success_chance: ", gameState.success_chance);
-  console.log("seconds: ", gameState.time);
-  console.log("---------------------");
+  // console.log("posessorAction: ", gameState.posessor_action);
+  // console.log("dribbleToBlock: ", gameState.dribble_to_block);
+  // console.log("ballBlock: ", gameState.ball_block);
+  // console.log("commentary: ", gameState.commentary);
+  // console.log("success_chance: ", gameState.success_chance);
+  // console.log("seconds: ", gameState.time);
+  // console.log("---------------------");
 
   return (
     <div>
@@ -378,7 +395,7 @@ function Home() {
                 border: "1px white solid",
               }}
             >
-              LIV {gameState.homeScore}
+              LIV {gameState.home_score}
             </p>
             <p
               style={{
@@ -389,7 +406,7 @@ function Home() {
                 border: "1px white solid",
               }}
             >
-              CHE {gameState.awayScore}
+              CHE {gameState.away_score}
             </p>
             <p
               style={{
@@ -644,16 +661,16 @@ function Home() {
             {showCoordinates && <div className="coordinates">D09</div>}
           </div>
           <div className="pitch_block">
-            {gameState.dribbleToBlock === "" &&
-            gameState.ballBlock === "D10" ? (
+            {gameState.dribble_to_block === "" &&
+            gameState.ball_block === "D10" ? (
               <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribbleToBlock === "D10" ? (
+            ) : gameState.dribble_to_block === "D10" ? (
               <p className="commentary_text">{gameState.commentary}</p>
             ) : (
               <></>
             )}
 
-            {gameState.dribbleToBlock === "D10" ? (
+            {gameState.dribble_to_block === "D10" ? (
               <img
                 className="player_avatar"
                 src={require("./images/gerrad_posession_left.png")}
@@ -715,17 +732,17 @@ function Home() {
           </div>
 
           <div className="pitch_block">
-            {gameState.dribbleToBlock === "" &&
-            gameState.ballBlock === "E09" ? (
+            {gameState.dribble_to_block === "" &&
+            gameState.ball_block === "E09" ? (
               <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribbleToBlock === "E09" ? (
+            ) : gameState.dribble_to_block === "E09" ? (
               <p className="commentary_text">{gameState.commentary}</p>
             ) : (
               <></>
             )}
 
-            {gameState.ballBlock === "E09" &&
-              (gameState.posessorAction === "" ? (
+            {gameState.ball_block === "E09" &&
+              (gameState.posessor_action === "" ? (
                 <img
                   className="player_avatar"
                   src={require("./images/gerrad_standing_left.png")}
@@ -733,7 +750,7 @@ function Home() {
                     setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
                   }
                 />
-              ) : gameState.posessorAction === "shoot_long" ? (
+              ) : gameState.posessor_action === "shoot_long" ? (
                 <img
                   className="player_avatar"
                   src={require("./images/gerrad_longshot_left.png")}
@@ -741,10 +758,10 @@ function Home() {
                     setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
                   }
                 />
-              ) : gameState.posessorAction === "stall" ||
-                gameState.posessorAction === "try_killer_ball" ||
-                gameState.posessorAction === "pass_back" ||
-                gameState.posessorAction === "pass_wide" ? (
+              ) : gameState.posessor_action === "stall" ||
+                gameState.posessor_action === "try_killer_ball" ||
+                gameState.posessor_action === "pass_back" ||
+                gameState.posessor_action === "pass_wide" ? (
                 <img
                   className="player_avatar"
                   src={require("./images/gerrad_posession_left.png")}
@@ -752,7 +769,7 @@ function Home() {
                     setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
                   }
                 />
-              ) : gameState.posessorAction === "try_killer_ball" ? (
+              ) : gameState.posessor_action === "try_killer_ball" ? (
                 <img
                   className="player_avatar"
                   src={require("./images/gerrad_posession_left.png")}
@@ -763,24 +780,6 @@ function Home() {
               ) : (
                 <></>
               ))}
-
-            {/* {gameState.posessingPlayer === "Gerrard" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_posession_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_standing_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            )} */}
 
             {showPlayerDetailsGerrard && (
               <img
@@ -864,16 +863,16 @@ function Home() {
             {showCoordinates && <div className="coordinates">F09</div>}
           </div>
           <div className="pitch_block">
-            {gameState.dribbleToBlock === "" &&
-            gameState.ballBlock === "F10" ? (
+            {gameState.dribble_to_block === "" &&
+            gameState.ball_block === "F10" ? (
               <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribbleToBlock === "F10" ? (
+            ) : gameState.dribble_to_block === "F10" ? (
               <p className="commentary_text">{gameState.commentary}</p>
             ) : (
               <></>
             )}
 
-            {gameState.dribbleToBlock === "F10" ? (
+            {gameState.dribble_to_block === "F10" ? (
               <img
                 className="player_avatar"
                 src={require("./images/gerrad_posession_left.png")}
