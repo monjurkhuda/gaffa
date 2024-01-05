@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
 import background from "./images/pitch.jpg";
+import PitchBlock from "./pitch/PitchBlock";
 
 // 3 - 2 - 5;
 // 3 - 3 - 4;
@@ -189,6 +190,7 @@ function Home() {
     gameState.defender_action = "";
     gameState.defender_action_block = "";
     gameState.phase_result = "";
+    gameState.dribble_to_block = "";
   }
 
   function posessorAction() {
@@ -351,7 +353,7 @@ function Home() {
           }
         } else {
           //console.log(gameState.posessor_action, "Failure!", randomSuccess);
-          gameState.commentary = "Gerrard hops the tackle from Vidic!";
+          gameState.commentary = "Gerrard jumps to avoid the tackle!";
           gameState.phase_result = "attacker_hops_tackle";
           if (gameState.dribble_to_block) {
             gameState.defender_action_block = gameState.dribble_to_block;
@@ -485,6 +487,12 @@ function Home() {
                 : gameState.time % 60}
             </p>
           </div>
+
+          <PitchBlock
+            showCoordinates={showCoordinates}
+            gameState={gameState}
+            coordinates="A00"
+          />
 
           <div className="pitch_block">
             <img
@@ -727,7 +735,8 @@ function Home() {
               <></>
             )}
 
-            {gameState.dribble_to_block === "D10" ? (
+            {gameState.defender_action_block !== "D10" &&
+            gameState.dribble_to_block === "D10" ? (
               <img
                 className="player_avatar"
                 src={require("./images/gerrad_posession_left.png")}
@@ -738,6 +747,34 @@ function Home() {
             ) : (
               <></>
             )}
+
+            {gameState.defender_action_block === "D10" &&
+              (gameState.phase_result === "attacker_hops_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_vidic_slideTackleFail_right.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : gameState.phase_result === "defender_wins_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_gerrard_posession_left.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : (
+                <></>
+              ))}
+
             {showCoordinates && <div className="coordinates">D10</div>}
           </div>
           <div className="pitch_block">
@@ -798,7 +835,8 @@ function Home() {
               <></>
             )}
 
-            {gameState.ball_block === "E09" &&
+            {gameState.defender_action_block !== "E09" &&
+              gameState.ball_block === "E09" &&
               (gameState.posessor_action === "" ? (
                 <img
                   className="player_avatar"
@@ -838,6 +876,33 @@ function Home() {
                 <></>
               ))}
 
+            {gameState.defender_action_block === "E09" &&
+              (gameState.phase_result === "attacker_hops_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_vidic_slideTackleFail_right.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : gameState.phase_result === "defender_wins_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_gerrard_posession_left.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : (
+                <></>
+              ))}
+
             {showPlayerDetailsGerrard && (
               <img
                 className="player_popup"
@@ -851,7 +916,7 @@ function Home() {
           </div>
 
           <div className="pitch_block">
-            {gameState.defender_block !== "E10" &&
+            {gameState.defender_action_block !== "E10" &&
             gameState.defender_action_block.length < 1 ? (
               <img
                 src={require("./images/vidic_standing_right.png")}
@@ -935,7 +1000,8 @@ function Home() {
               <></>
             )}
 
-            {gameState.dribble_to_block === "F10" ? (
+            {gameState.defender_action_block !== "F10" &&
+            gameState.dribble_to_block === "F10" ? (
               <img
                 className="player_avatar"
                 src={require("./images/gerrad_posession_left.png")}
@@ -946,6 +1012,33 @@ function Home() {
             ) : (
               <></>
             )}
+
+            {gameState.defender_action_block === "F10" &&
+              (gameState.phase_result === "attacker_hops_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_vidic_slideTackleFail_right.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : gameState.phase_result === "defender_wins_tackle" ? (
+                <>
+                  <img
+                    src={require("./images/split_gerrard_posession_left.png")}
+                    className="player_avatar"
+                  />
+                  <img
+                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+                    className="player_avatar"
+                  />
+                </>
+              ) : (
+                <></>
+              ))}
 
             {showCoordinates && <div className="coordinates">F10</div>}
           </div>
