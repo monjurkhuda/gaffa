@@ -191,6 +191,7 @@ function Home() {
     gameState.defender_action_block = "";
     gameState.phase_result = "";
     gameState.dribble_to_block = "";
+    gameState.posessor_action = "";
   }
 
   function posessorAction() {
@@ -488,11 +489,11 @@ function Home() {
             </p>
           </div>
 
-          <PitchBlock
+          {/* <PitchBlock
             showCoordinates={showCoordinates}
             gameState={gameState}
             coordinates="A00"
-          />
+          /> */}
 
           <div className="pitch_block">
             <img
