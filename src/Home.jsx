@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Home.css";
 import background from "./images/pitch.jpg";
-import PitchBlock from "./pitch/PitchBlock";
+import PitchBlock from "./match/PitchBlock";
 
 // 3 - 2 - 5;
 // 3 - 3 - 4;
@@ -104,7 +104,7 @@ function Home() {
       dribbling: 16,
       trusts_manager: 10,
       decisions: 18,
-      man_marked_by: "",
+      man_marked_by: "Vidic",
       personal_traits: {
         one_club_man: true,
       },
@@ -826,7 +826,19 @@ function Home() {
             {showCoordinates && <div className="coordinates">E08</div>}
           </div>
 
-          <div className="pitch_block">
+          <PitchBlock
+            showCoordinates={showCoordinates}
+            coordinates="E09"
+            gameState={gameState}
+          />
+
+          <PitchBlock
+            showCoordinates={showCoordinates}
+            coordinates="E10"
+            gameState={gameState}
+          />
+
+          {/* <div className="pitch_block">
             {gameState.dribble_to_block === "" &&
             gameState.ball_block === "E09" ? (
               <p className="commentary_text">{gameState.commentary}</p>
@@ -914,9 +926,9 @@ function Home() {
               />
             )}
             {showCoordinates && <div className="coordinates">E09</div>}
-          </div>
+          </div> */}
 
-          <div className="pitch_block">
+          {/* <div className="pitch_block">
             {gameState.defender_action_block !== "E10" &&
             gameState.defender_action_block.length < 1 ? (
               <img
@@ -928,7 +940,8 @@ function Home() {
             )}
 
             {showCoordinates && <div className="coordinates">E10</div>}
-          </div>
+          </div> */}
+
           <div className="pitch_block">
             {showCoordinates && <div className="coordinates">E11</div>}
           </div>
