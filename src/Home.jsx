@@ -68,6 +68,23 @@ function Home() {
   let homeFormations = {
     4231: { B10: "LW", E09: "CAM", H10: "RW", E12: "ST" },
   };
+  let lineupData = {
+    Home: {
+      Mid: {
+        RCM: "VanDijk",
+        LCM: "Gullit",
+        CAM: "Gerrard",
+      },
+    },
+
+    Away: {
+      Mid: {
+        CDM: "Vidic",
+        RCM: "Matic",
+        LCM: "Fred",
+      },
+    },
+  };
 
   let awayFormations = {
     532: {
@@ -164,24 +181,6 @@ function Home() {
   let onBallActionsByPosition = {
     CAM: ["dribble", "pass_back"],
     CDM: [],
-  };
-
-  let lineupData = {
-    Home: {
-      Mid: {
-        RCM: "VanDijk",
-        LCM: "Gullit",
-        CAM: "Gerrard",
-      },
-    },
-
-    Away: {
-      Mid: {
-        CDM: "Vidic",
-        RCM: "Matic",
-        LCM: "Fred",
-      },
-    },
   };
 
   function offBallAttackerAction() {
@@ -409,18 +408,853 @@ function Home() {
     });
   }
 
-  console.log("posessorAction: ", gameState.posessor_action);
-  console.log("dribbleToBlock: ", gameState.dribble_to_block);
-  console.log("ballBlock: ", gameState.ball_block);
-  console.log("commentary: ", gameState.commentary);
-  console.log("success_chance: ", gameState.success_chance);
-  console.log("seconds: ", gameState.time);
-  console.log("defender_block: ", gameState.defender_block);
-  console.log("defending_player: ", gameState.defending_player);
-  console.log("defender_action: ", gameState.defender_action);
-  console.log("defender_action_block: ", gameState.defender_action_block);
-  console.log("phase_result: ", gameState.phase_result);
-  console.log("---------------------");
+  // console.log("posessorAction: ", gameState.posessor_action);
+  // console.log("dribbleToBlock: ", gameState.dribble_to_block);
+  // console.log("ballBlock: ", gameState.ball_block);
+  // console.log("commentary: ", gameState.commentary);
+  // console.log("success_chance: ", gameState.success_chance);
+  // console.log("seconds: ", gameState.time);
+  // console.log("defender_block: ", gameState.defender_block);
+  // console.log("defending_player: ", gameState.defending_player);
+  // console.log("defender_action: ", gameState.defender_action);
+  // console.log("defender_action_block: ", gameState.defender_action_block);
+  // console.log("phase_result: ", gameState.phase_result);
+  // console.log("---------------------");
+
+  let testObj = {
+    313: { Team: "Away", Position: "RCB", Player: "Matic" },
+    402: { Team: "Home", Position: "LCB", Player: "VanDijk" },
+    500: { Team: "Home", Position: "GK", Player: "DeGea" },
+    510: { Team: "Away", Position: "CDM", Player: "Fred" },
+    512: { Team: "Home", Position: "ST", Player: "Gullit" },
+    515: { Team: "Away", Position: "GK", Player: "DeGea" },
+    713: { Team: "Away", Position: "LCB", Player: "Vidic" },
+  };
+
+  for (let i = 100; i < 1000; i += 100) {
+    for (let j = 0; j < 16; j++) {
+      console.log(testObj[i + j]?.Player);
+
+      if (!testObj[i + j]?.Player) {
+        testObj[i + j] = {};
+      }
+    }
+  }
+
+  // return (
+  //   <div>
+  //     <button onClick={() => setShowCoordinates(!showCoordinates)}>
+  //       Show Coordinates
+  //     </button>
+  //     <button onClick={() => gameLogic()}>next</button>
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         backgroundImage: `url(${background})`,
+  //         width: "1120px",
+  //         height: "1090px",
+  //       }}
+  //     >
+  //       <div className="pitch_container">
+  //         <div
+  //           style={{
+  //             display: "flex",
+  //             position: "absolute",
+  //             top: "200px",
+  //           }}
+  //         >
+  //           <p
+  //             style={{
+  //               paddingLeft: "10px",
+  //               paddingRight: "10px",
+  //               backgroundColor: "red",
+  //               fontSize: "medium",
+  //               border: "1px white solid",
+  //             }}
+  //           >
+  //             LIV {gameState.home_score}
+  //           </p>
+  //           <p
+  //             style={{
+  //               paddingLeft: "10px",
+  //               paddingRight: "10px",
+  //               backgroundColor: "blue",
+  //               fontSize: "medium",
+  //               border: "1px white solid",
+  //             }}
+  //           >
+  //             CHE {gameState.away_score}
+  //           </p>
+  //           <p
+  //             style={{
+  //               paddingLeft: "10px",
+  //               paddingRight: "10px",
+  //               color: "black",
+  //               backgroundColor: "white",
+  //               fontSize: "medium",
+  //               fontWeight: "700",
+  //               border: "1px white solid",
+  //             }}
+  //           >
+  //             {Math.floor(gameState.time / 60) < 10
+  //               ? "0" + Math.floor(gameState.time / 60)
+  //               : Math.floor(gameState.time / 60)}
+  //             {" : "}
+  //             {gameState.time % 60 < 10
+  //               ? "0" + (gameState.time % 60)
+  //               : gameState.time % 60}
+  //           </p>
+  //         </div>
+
+  //         {/* <PitchBlock
+  //           showCoordinates={showCoordinates}
+  //           gameState={gameState}
+  //           coordinates="A00"
+  //         /> */}
+
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/split_gerrard_posession_left.png")}
+  //             className="player_avatar"
+  //           />
+  //           <img
+  //             src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">A00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/test_left.png")}
+  //             className="player_avatar"
+  //           />
+  //           <img
+  //             src={require("./images/test_right.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">A01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/split_vidic_slideTackleFail_right.png")}
+  //             className="player_avatar"
+  //           />
+  //           <img
+  //             src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">A02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">A12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">A15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">B03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">B10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">B15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //             onClick={() => setShowPlayerDetails(!showPlayerDetails)}
+  //           />
+  //           {showPlayerDetails && (
+  //             <img
+  //               className="player_popup"
+  //               src={require("./images/vidic_popup.png")}
+  //               onClick={() => setShowPlayerDetails(!showPlayerDetails)}
+  //             />
+  //           )}
+  //           {showCoordinates && <div className="coordinates">C08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             className="player_avatar"
+  //             src={require("./images/vidic_standing_right.png")}
+  //           />
+  //           {showCoordinates && <div className="coordinates">C13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">C15</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">D02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //           />
+  //           {showCoordinates && <div className="coordinates">D04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">D07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {gameState.dribble_to_block === "" &&
+  //           gameState.ball_block === "D10" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : gameState.dribble_to_block === "D10" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {gameState.defender_action_block !== "D10" &&
+  //           gameState.dribble_to_block === "D10" ? (
+  //             <img
+  //               className="player_avatar"
+  //               src={require("./images/gerrad_posession_left.png")}
+  //               onClick={() =>
+  //                 setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //               }
+  //             />
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {gameState.defender_action_block === "D10" &&
+  //             (gameState.phase_result === "attacker_hops_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleFail_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : gameState.phase_result === "defender_wins_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_gerrard_posession_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : (
+  //               <></>
+  //             ))}
+
+  //           {showCoordinates && <div className="coordinates">D10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">D15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/gk_standing.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">E00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E08</div>}
+  //         </div>
+
+  //         <PitchBlock
+  //           showCoordinates={showCoordinates}
+  //           coordinates="E09"
+  //           gameState={gameState}
+  //         />
+
+  //         <PitchBlock
+  //           showCoordinates={showCoordinates}
+  //           coordinates="E10"
+  //           gameState={gameState}
+  //         />
+
+  //         {/* <div className="pitch_block">
+  //           {gameState.dribble_to_block === "" &&
+  //           gameState.ball_block === "E09" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : gameState.dribble_to_block === "E09" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {gameState.defender_action_block !== "E09" &&
+  //             gameState.ball_block === "E09" &&
+  //             (gameState.posessor_action === "" ? (
+  //               <img
+  //                 className="player_avatar"
+  //                 src={require("./images/gerrad_standing_left.png")}
+  //                 onClick={() =>
+  //                   setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //                 }
+  //               />
+  //             ) : gameState.posessor_action === "shoot_long" ? (
+  //               <img
+  //                 className="player_avatar"
+  //                 src={require("./images/gerrad_longshot_left.png")}
+  //                 onClick={() =>
+  //                   setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //                 }
+  //               />
+  //             ) : gameState.posessor_action === "stall" ||
+  //               gameState.posessor_action === "try_killer_ball" ||
+  //               gameState.posessor_action === "pass_back" ||
+  //               gameState.posessor_action === "pass_wide" ? (
+  //               <img
+  //                 className="player_avatar"
+  //                 src={require("./images/gerrad_posession_left.png")}
+  //                 onClick={() =>
+  //                   setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //                 }
+  //               />
+  //             ) : gameState.posessor_action === "try_killer_ball" ? (
+  //               <img
+  //                 className="player_avatar"
+  //                 src={require("./images/gerrad_posession_left.png")}
+  //                 onClick={() =>
+  //                   setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //                 }
+  //               />
+  //             ) : (
+  //               <></>
+  //             ))}
+
+  //           {gameState.defender_action_block === "E09" &&
+  //             (gameState.phase_result === "attacker_hops_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleFail_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : gameState.phase_result === "defender_wins_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_gerrard_posession_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : (
+  //               <></>
+  //             ))}
+
+  //           {showPlayerDetailsGerrard && (
+  //             <img
+  //               className="player_popup"
+  //               src={require("./images/gerrard_popup.png")}
+  //               onClick={() =>
+  //                 setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //               }
+  //             />
+  //           )}
+  //           {showCoordinates && <div className="coordinates">E09</div>}
+  //         </div> */}
+
+  //         {/* <div className="pitch_block">
+  //           {gameState.defender_action_block !== "E10" &&
+  //           gameState.defender_action_block.length < 1 ? (
+  //             <img
+  //               src={require("./images/vidic_standing_right.png")}
+  //               width={"50px"}
+  //             />
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {showCoordinates && <div className="coordinates">E10</div>}
+  //         </div> */}
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">E12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //           />
+  //           {showCoordinates && <div className="coordinates">E13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">E14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/gk_right_standing.png")}
+  //             //src={require("./images/gk_right_diving.png")}
+  //             className="player_avatar"
+  //           />
+  //           {showCoordinates && <div className="coordinates">E15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">F02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //           />
+  //           {showCoordinates && <div className="coordinates">F04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">F07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {gameState.dribble_to_block === "" &&
+  //           gameState.ball_block === "F10" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : gameState.dribble_to_block === "F10" ? (
+  //             <p className="commentary_text">{gameState.commentary}</p>
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {gameState.defender_action_block !== "F10" &&
+  //           gameState.dribble_to_block === "F10" ? (
+  //             <img
+  //               className="player_avatar"
+  //               src={require("./images/gerrad_posession_left.png")}
+  //               onClick={() =>
+  //                 setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
+  //               }
+  //             />
+  //           ) : (
+  //             <></>
+  //           )}
+
+  //           {gameState.defender_action_block === "F10" &&
+  //             (gameState.phase_result === "attacker_hops_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleFail_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_gerrard_rideSlideTackle_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : gameState.phase_result === "defender_wins_tackle" ? (
+  //               <>
+  //                 <img
+  //                   src={require("./images/split_gerrard_posession_left.png")}
+  //                   className="player_avatar"
+  //                 />
+  //                 <img
+  //                   src={require("./images/split_vidic_slideTackleSuccess_right.png")}
+  //                   className="player_avatar"
+  //                 />
+  //               </>
+  //             ) : (
+  //               <></>
+  //             ))}
+
+  //           {showCoordinates && <div className="coordinates">F10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">F15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //           />
+  //           {showCoordinates && <div className="coordinates">G08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             className="player_avatar"
+  //             src={require("./images/vidic_standing_right.png")}
+  //           />
+  //           {showCoordinates && <div className="coordinates">G13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">G15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">H03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img src={require("./images/cb_standing.png")} width={"50px"} />
+  //           {showCoordinates && <div className="coordinates">H10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">H15</div>}
+  //         </div>
+
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I00</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I01</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I02</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I03</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I04</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I05</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I06</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I07</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I08</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I09</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I10</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I11</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           <img
+  //             src={require("./images/cb_standing_right.png")}
+  //             width={"50px"}
+  //           />
+  //           {showCoordinates && <div className="coordinates">I12</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I13</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I14</div>}
+  //         </div>
+  //         <div className="pitch_block">
+  //           {showCoordinates && <div className="coordinates">I15</div>}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div>
@@ -489,749 +1323,15 @@ function Home() {
             </p>
           </div>
 
-          {/* <PitchBlock
-            showCoordinates={showCoordinates}
-            gameState={gameState}
-            coordinates="A00"
-          /> */}
-
-          <div className="pitch_block">
-            <img
-              src={require("./images/split_gerrard_posession_left.png")}
-              className="player_avatar"
-            />
-            <img
-              src={require("./images/split_vidic_slideTackleSuccess_right.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">A00</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/test_left.png")}
-              className="player_avatar"
-            />
-            <img
-              src={require("./images/test_right.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">A01</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/split_vidic_slideTackleFail_right.png")}
-              className="player_avatar"
-            />
-            <img
-              src={require("./images/split_gerrard_rideSlideTackle_left.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">A02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A09</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A11</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">A12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">A15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B02</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">B03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B09</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">B10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">B15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C07</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-              onClick={() => setShowPlayerDetails(!showPlayerDetails)}
-            />
-            {showPlayerDetails && (
-              <img
-                className="player_popup"
-                src={require("./images/vidic_popup.png")}
-                onClick={() => setShowPlayerDetails(!showPlayerDetails)}
+          {Object.keys(testObj).map((n) => {
+            return (
+              <PitchBlock
+                showCoordinates={showCoordinates}
+                gameState={gameState}
+                coordinates={n}
               />
-            )}
-            {showCoordinates && <div className="coordinates">C08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C09</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C12</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              className="player_avatar"
-              src={require("./images/vidic_standing_right.png")}
-            />
-            {showCoordinates && <div className="coordinates">C13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">C15</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D01</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">D02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D03</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-            {showCoordinates && <div className="coordinates">D04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D06</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">D07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D09</div>}
-          </div>
-          <div className="pitch_block">
-            {gameState.dribble_to_block === "" &&
-            gameState.ball_block === "D10" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribble_to_block === "D10" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : (
-              <></>
-            )}
-
-            {gameState.defender_action_block !== "D10" &&
-            gameState.dribble_to_block === "D10" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_posession_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : (
-              <></>
-            )}
-
-            {gameState.defender_action_block === "D10" &&
-              (gameState.phase_result === "attacker_hops_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_vidic_slideTackleFail_right.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : gameState.phase_result === "defender_wins_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_gerrard_posession_left.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : (
-                <></>
-              ))}
-
-            {showCoordinates && <div className="coordinates">D10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">D15</div>}
-          </div>
-
-          <div className="pitch_block">
-            <img
-              src={require("./images/gk_standing.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">E00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E08</div>}
-          </div>
-
-          <PitchBlock
-            showCoordinates={showCoordinates}
-            coordinates="E09"
-            gameState={gameState}
-          />
-
-          <PitchBlock
-            showCoordinates={showCoordinates}
-            coordinates="E10"
-            gameState={gameState}
-          />
-
-          {/* <div className="pitch_block">
-            {gameState.dribble_to_block === "" &&
-            gameState.ball_block === "E09" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribble_to_block === "E09" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : (
-              <></>
-            )}
-
-            {gameState.defender_action_block !== "E09" &&
-              gameState.ball_block === "E09" &&
-              (gameState.posessor_action === "" ? (
-                <img
-                  className="player_avatar"
-                  src={require("./images/gerrad_standing_left.png")}
-                  onClick={() =>
-                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                  }
-                />
-              ) : gameState.posessor_action === "shoot_long" ? (
-                <img
-                  className="player_avatar"
-                  src={require("./images/gerrad_longshot_left.png")}
-                  onClick={() =>
-                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                  }
-                />
-              ) : gameState.posessor_action === "stall" ||
-                gameState.posessor_action === "try_killer_ball" ||
-                gameState.posessor_action === "pass_back" ||
-                gameState.posessor_action === "pass_wide" ? (
-                <img
-                  className="player_avatar"
-                  src={require("./images/gerrad_posession_left.png")}
-                  onClick={() =>
-                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                  }
-                />
-              ) : gameState.posessor_action === "try_killer_ball" ? (
-                <img
-                  className="player_avatar"
-                  src={require("./images/gerrad_posession_left.png")}
-                  onClick={() =>
-                    setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                  }
-                />
-              ) : (
-                <></>
-              ))}
-
-            {gameState.defender_action_block === "E09" &&
-              (gameState.phase_result === "attacker_hops_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_vidic_slideTackleFail_right.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : gameState.phase_result === "defender_wins_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_gerrard_posession_left.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : (
-                <></>
-              ))}
-
-            {showPlayerDetailsGerrard && (
-              <img
-                className="player_popup"
-                src={require("./images/gerrard_popup.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            )}
-            {showCoordinates && <div className="coordinates">E09</div>}
-          </div> */}
-
-          {/* <div className="pitch_block">
-            {gameState.defender_action_block !== "E10" &&
-            gameState.defender_action_block.length < 1 ? (
-              <img
-                src={require("./images/vidic_standing_right.png")}
-                width={"50px"}
-              />
-            ) : (
-              <></>
-            )}
-
-            {showCoordinates && <div className="coordinates">E10</div>}
-          </div> */}
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E11</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">E12</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-            {showCoordinates && <div className="coordinates">E13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">E14</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/gk_right_standing.png")}
-              //src={require("./images/gk_right_diving.png")}
-              className="player_avatar"
-            />
-            {showCoordinates && <div className="coordinates">E15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F01</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">F02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F03</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-            {showCoordinates && <div className="coordinates">F04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F06</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">F07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F09</div>}
-          </div>
-          <div className="pitch_block">
-            {gameState.dribble_to_block === "" &&
-            gameState.ball_block === "F10" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : gameState.dribble_to_block === "F10" ? (
-              <p className="commentary_text">{gameState.commentary}</p>
-            ) : (
-              <></>
-            )}
-
-            {gameState.defender_action_block !== "F10" &&
-            gameState.dribble_to_block === "F10" ? (
-              <img
-                className="player_avatar"
-                src={require("./images/gerrad_posession_left.png")}
-                onClick={() =>
-                  setShowPlayerDetailsGerrard(!showPlayerDetailsGerrard)
-                }
-              />
-            ) : (
-              <></>
-            )}
-
-            {gameState.defender_action_block === "F10" &&
-              (gameState.phase_result === "attacker_hops_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_vidic_slideTackleFail_right.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_gerrard_rideSlideTackle_left.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : gameState.phase_result === "defender_wins_tackle" ? (
-                <>
-                  <img
-                    src={require("./images/split_gerrard_posession_left.png")}
-                    className="player_avatar"
-                  />
-                  <img
-                    src={require("./images/split_vidic_slideTackleSuccess_right.png")}
-                    className="player_avatar"
-                  />
-                </>
-              ) : (
-                <></>
-              ))}
-
-            {showCoordinates && <div className="coordinates">F10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">F15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G07</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-            {showCoordinates && <div className="coordinates">G08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G09</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G12</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              className="player_avatar"
-              src={require("./images/vidic_standing_right.png")}
-            />
-            {showCoordinates && <div className="coordinates">G13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">G15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H02</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">H03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H09</div>}
-          </div>
-          <div className="pitch_block">
-            <img src={require("./images/cb_standing.png")} width={"50px"} />
-            {showCoordinates && <div className="coordinates">H10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H11</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">H15</div>}
-          </div>
-
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I00</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I01</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I02</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I03</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I04</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I05</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I06</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I07</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I08</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I09</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I10</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I11</div>}
-          </div>
-          <div className="pitch_block">
-            <img
-              src={require("./images/cb_standing_right.png")}
-              width={"50px"}
-            />
-            {showCoordinates && <div className="coordinates">I12</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I13</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I14</div>}
-          </div>
-          <div className="pitch_block">
-            {showCoordinates && <div className="coordinates">I15</div>}
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>
