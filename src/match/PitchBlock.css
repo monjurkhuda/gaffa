@@ -1,0 +1,22 @@
+.pitch_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: rgba(0, 0, 0, 0.06);
+  width: 50px;
+  height: 50px;
+}
+
+.coordinates {
+  position: absolute;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 900;
+  font-size: medium;
+  text-shadow: 1px 1px black;
+  border-width: 1px;
+  border-style: dashed;
+  box-sizing: border-box;
+  border-color: rgb(255, 255, 255, 0.3);
+  width: 50px;
+  height: 50px;
+}

@@ -421,22 +421,21 @@ function Home() {
   // console.log("phase_result: ", gameState.phase_result);
   // console.log("---------------------");
 
-  let testObj = {
-    313: { Team: "Away", Position: "RCB", Player: "Matic" },
+  let pitchObj = {
+    313: { Team: "Away", Position: "RCB", Player: "Vidic" },
     402: { Team: "Home", Position: "LCB", Player: "VanDijk" },
     500: { Team: "Home", Position: "GK", Player: "DeGea" },
-    510: { Team: "Away", Position: "CDM", Player: "Fred" },
-    512: { Team: "Home", Position: "ST", Player: "Gullit" },
+    509: { Team: "Home", Position: "GK", Player: "Gerrard" },
+    510: { Team: "Away", Position: "CDM", Player: "Matic" },
+    512: { Team: "Home", Position: "ST", Player: "VanDijk" },
     515: { Team: "Away", Position: "GK", Player: "DeGea" },
     713: { Team: "Away", Position: "LCB", Player: "Vidic" },
   };
 
   for (let i = 100; i < 1000; i += 100) {
     for (let j = 0; j < 16; j++) {
-      console.log(testObj[i + j]?.Player);
-
-      if (!testObj[i + j]?.Player) {
-        testObj[i + j] = {};
+      if (!pitchObj[i + j]?.Player) {
+        pitchObj[i + j] = {};
       }
     }
   }
@@ -1323,12 +1322,14 @@ function Home() {
             </p>
           </div>
 
-          {Object.keys(testObj).map((n) => {
+          {Object.keys(pitchObj).map((n) => {
+            console.log(pitchObj[n].Player);
             return (
               <PitchBlock
                 showCoordinates={showCoordinates}
                 gameState={gameState}
                 coordinates={n}
+                pitchObj={pitchObj}
               />
             );
           })}

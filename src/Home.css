@@ -31,31 +31,31 @@
   font-size: medium;
 }
 
-.coordinates {
+/* .coordinates {
   position: absolute;
   color: white;
   font-family: "Courier New", Courier, monospace;
   font-weight: 900;
   font-size: medium;
   text-shadow: 1px 1px black;
-}
+} */
 
 .player_popup {
   position: absolute;
   width: 160px;
 }
 
-.pitch_block {
+/* .pitch_block {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border-color: rgba(0, 0, 0, 0.06);
+   border-color: rgba(0, 0, 0, 0.06);
   border-width: 1px;
-  border-style: dashed; */
+  border-style: dashed;
   box-sizing: border-box;
   width: 50px;
   height: 50px;
-}
+} */
 
 /* .has_border {
   box-sizing: border-box;
