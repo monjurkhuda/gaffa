@@ -7,6 +7,13 @@
   height: 50px;
 }
 
+.player_name {
+  position: absolute;
+  margin-bottom: 60px;
+  font-size: small;
+  color: black;
+}
+
 .coordinates {
   position: absolute;
   font-family: "Courier New", Courier, monospace;
@@ -19,4 +26,14 @@
   border-color: rgb(255, 255, 255, 0.3);
   width: 50px;
   height: 50px;
+}
+
+.commentary_text {
+  position: absolute;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  padding-top: 80px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: medium;
 }

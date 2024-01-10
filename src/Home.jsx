@@ -49,7 +49,7 @@ function Home() {
     off_ball_attacker: "",
     off_ball_attacker_action: "",
 
-    ball_block: "E09",
+    ball_block: 509,
     posessing_player: "Gerrard",
     posessor_action: "",
     dribble_to_block: "",
@@ -109,9 +109,22 @@ function Home() {
   };
 
   let playerData = {
+    DeGea: {
+      position: "GK",
+      ball_block: 515,
+      zone: "GK",
+    },
+    VanDijk: {
+      position: "LCM",
+      ball_block: 402,
+      strength: 18,
+      aggression: 18,
+      stamina: 16,
+      marking: 18,
+    },
     Gerrard: {
       position: "CAM",
-      ball_block: "E09",
+      ball_block: 509,
       zone: "Mid",
       first_touch: 18,
       stamina: 20,
@@ -138,43 +151,19 @@ function Home() {
     },
     Vidic: {
       position: "CDM",
-      ball_block: "E10",
+      ball_block: 510,
       strength: 18,
       aggression: 18,
       stamina: 16,
       marking: 20,
     },
     Matic: {
-      position: "RCM",
-      ball_block: "C08",
+      position: "RCB",
+      ball_block: 313,
       strength: 18,
       aggression: 18,
       stamina: 16,
       marking: 14,
-    },
-    Fred: {
-      position: "LCM",
-      ball_block: "G08",
-      strength: 2,
-      aggression: 2,
-      stamina: 2,
-      marking: 2,
-    },
-    VanDijk: {
-      position: "RCM",
-      ball_block: "F07",
-      strength: 18,
-      aggression: 18,
-      stamina: 16,
-      marking: 18,
-    },
-    Gullit: {
-      position: "LCM",
-      ball_block: "D07",
-      strength: 18,
-      aggression: 18,
-      stamina: 16,
-      marking: 17,
     },
   };
 
@@ -252,12 +241,12 @@ function Home() {
 
       switch (randNum) {
         case 1:
-          gameState.dribble_to_block = "D10";
+          gameState.dribble_to_block = 410;
           gameState.commentary = "Gerrard dribbles to his left!";
           break;
 
         case 2:
-          gameState.dribble_to_block = "F10";
+          gameState.dribble_to_block = 610;
           gameState.commentary = "Gerrard dribbles to his strong right foot!";
           break;
 
@@ -420,16 +409,14 @@ function Home() {
   // console.log("defender_action_block: ", gameState.defender_action_block);
   // console.log("phase_result: ", gameState.phase_result);
   // console.log("---------------------");
+  console.log(gameState);
 
   let pitchObj = {
-    313: { Team: "Away", Position: "RCB", Player: "Vidic" },
+    313: { Team: "Away", Position: "RCB", Player: "Matic" },
     402: { Team: "Home", Position: "LCB", Player: "VanDijk" },
-    500: { Team: "Home", Position: "GK", Player: "DeGea" },
-    509: { Team: "Home", Position: "GK", Player: "Gerrard" },
-    510: { Team: "Away", Position: "CDM", Player: "Matic" },
-    512: { Team: "Home", Position: "ST", Player: "VanDijk" },
     515: { Team: "Away", Position: "GK", Player: "DeGea" },
-    713: { Team: "Away", Position: "LCB", Player: "Vidic" },
+    509: { Team: "Home", Position: "GK", Player: "Gerrard" },
+    510: { Team: "Away", Position: "CDM", Player: "Vidic" },
   };
 
   for (let i = 100; i < 1000; i += 100) {
@@ -439,6 +426,88 @@ function Home() {
       }
     }
   }
+
+  return (
+    <div>
+      <button onClick={() => setShowCoordinates(!showCoordinates)}>
+        Show Coordinates
+      </button>
+      <button onClick={() => gameLogic()}>next</button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage: `url(${background})`,
+          width: "1120px",
+          height: "1090px",
+        }}
+      >
+        <div className="pitch_container">
+          <div
+            style={{
+              display: "flex",
+              position: "absolute",
+              top: "200px",
+            }}
+          >
+            <p
+              style={{
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                backgroundColor: "red",
+                fontSize: "medium",
+                border: "1px white solid",
+              }}
+            >
+              LIV {gameState.home_score}
+            </p>
+            <p
+              style={{
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                backgroundColor: "blue",
+                fontSize: "medium",
+                border: "1px white solid",
+              }}
+            >
+              CHE {gameState.away_score}
+            </p>
+            <p
+              style={{
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                color: "black",
+                backgroundColor: "white",
+                fontSize: "medium",
+                fontWeight: "700",
+                border: "1px white solid",
+              }}
+            >
+              {Math.floor(gameState.time / 60) < 10
+                ? "0" + Math.floor(gameState.time / 60)
+                : Math.floor(gameState.time / 60)}
+              {" : "}
+              {gameState.time % 60 < 10
+                ? "0" + (gameState.time % 60)
+                : gameState.time % 60}
+            </p>
+          </div>
+
+          {Object.keys(pitchObj).map((n) => {
+            return (
+              <PitchBlock
+                showCoordinates={showCoordinates}
+                gameState={gameState}
+                coordinates={n}
+                pitchObj={pitchObj}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 
   // return (
   //   <div>
@@ -1254,89 +1323,6 @@ function Home() {
   //     </div>
   //   </div>
   // );
-
-  return (
-    <div>
-      <button onClick={() => setShowCoordinates(!showCoordinates)}>
-        Show Coordinates
-      </button>
-      <button onClick={() => gameLogic()}>next</button>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundImage: `url(${background})`,
-          width: "1120px",
-          height: "1090px",
-        }}
-      >
-        <div className="pitch_container">
-          <div
-            style={{
-              display: "flex",
-              position: "absolute",
-              top: "200px",
-            }}
-          >
-            <p
-              style={{
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                backgroundColor: "red",
-                fontSize: "medium",
-                border: "1px white solid",
-              }}
-            >
-              LIV {gameState.home_score}
-            </p>
-            <p
-              style={{
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                backgroundColor: "blue",
-                fontSize: "medium",
-                border: "1px white solid",
-              }}
-            >
-              CHE {gameState.away_score}
-            </p>
-            <p
-              style={{
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                color: "black",
-                backgroundColor: "white",
-                fontSize: "medium",
-                fontWeight: "700",
-                border: "1px white solid",
-              }}
-            >
-              {Math.floor(gameState.time / 60) < 10
-                ? "0" + Math.floor(gameState.time / 60)
-                : Math.floor(gameState.time / 60)}
-              {" : "}
-              {gameState.time % 60 < 10
-                ? "0" + (gameState.time % 60)
-                : gameState.time % 60}
-            </p>
-          </div>
-
-          {Object.keys(pitchObj).map((n) => {
-            console.log(pitchObj[n].Player);
-            return (
-              <PitchBlock
-                showCoordinates={showCoordinates}
-                gameState={gameState}
-                coordinates={n}
-                pitchObj={pitchObj}
-              />
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default Home;

@@ -4,9 +4,22 @@ import "./PitchBlock.css";
 function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
   //const [showCoordinates, setShowCoordinates] = useState(false);
 
+  let coordinatesNum = Number(coordinates);
+
+  // console.log(typeof gameState.ball_block);
+  // console.log(typeof coordinates);
+
   return (
     <div className="pitch_block">
-      {gameState.defender_block === coordinates &&
+      <p className="player_name">{pitchObj[coordinates].Player}</p>
+
+      {gameState.ball_block === coordinatesNum ? (
+        <p className="commentary_text">{gameState.commentary}</p>
+      ) : (
+        <></>
+      )}
+
+      {gameState.defender_block === coordinatesNum &&
       gameState.defender_action &&
       !gameState.defender_action_block ? (
         <p className="commentary_text">{gameState.commentary}</p>
