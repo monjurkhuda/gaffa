@@ -180,6 +180,7 @@ function Home() {
     gameState.phase_result = "";
     gameState.dribble_to_block = "";
     gameState.posessor_action = "";
+    gameState.commentary = "";
   }
 
   function posessorAction() {

@@ -13,29 +13,24 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
     <div className="pitch_block">
       <p className="player_name">{pitchObj[coordinates].Player}</p>
 
-      {gameState.ball_block === coordinatesNum ? (
+      {gameState.ball_block === coordinatesNum &&
+        (gameState.game_phase === "kickoff" ||
+          gameState.game_phase === "posessor_action") && (
+          <p className="commentary_text">{gameState.commentary}</p>
+        )}
+
+      {gameState.defender_action_block === coordinatesNum && (
         <p className="commentary_text">{gameState.commentary}</p>
-      ) : (
-        <></>
       )}
 
-      {gameState.defender_block === coordinatesNum &&
-      gameState.defender_action &&
-      !gameState.defender_action_block ? (
-        <p className="commentary_text">{gameState.commentary}</p>
-      ) : gameState.dribble_to_block === "" &&
-        gameState.ball_block === coordinates ? (
-        <p className="commentary_text">{gameState.commentary}</p>
-      ) : gameState.dribble_to_block === coordinates ? (
-        <p className="commentary_text">{gameState.commentary}</p>
-      ) : (
-        <></>
-      )}
+      {!gameState.defender_action_block &&
+        gameState.defender_block === coordinatesNum &&
+        gameState.game_phase === "off_ball_action" && (
+          <p className="commentary_text">{gameState.commentary}</p>
+        )}
 
       {pitchObj[coordinates].Team === "Home" &&
-        (pitchObj[coordinates].Player === "Gerrard" ||
-          pitchObj[coordinates].Player === "VanDijk" ||
-          pitchObj[coordinates].Player === "DeGea") && (
+        pitchObj[coordinates].Player && (
           <img
             alt={pitchObj[coordinates].Player}
             src={require(`../images/${pitchObj[coordinates].Player}_standing.png`)}
@@ -44,9 +39,7 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
         )}
 
       {pitchObj[coordinates].Team === "Away" &&
-        (pitchObj[coordinates].Player === "Matic" ||
-          pitchObj[coordinates].Player === "Vidic" ||
-          pitchObj[coordinates].Player === "DeGea") && (
+        pitchObj[coordinates].Player && (
           <img
             alt={pitchObj[coordinates].Player}
             src={require(`../images/${pitchObj[coordinates].Player}_standing.png`)}
