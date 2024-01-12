@@ -141,13 +141,13 @@ function Home() {
       mental_traits: {
         one_club_man: true,
       },
-      on_ball_traits: ["try_killer_ball", "pass_wide"],
-      off_ball_traits: ["run_forward"],
-      instructions: ["shoot_long", "stall"],
+      // on_ball_traits: ["try_killer_ball", "pass_wide"],
+      // off_ball_traits: ["run_forward"],
+      // instructions: ["shoot_long", "stall"],
 
-      // on_ball_traits: ["dribble", "dribble"],
-      // off_ball_traits: ["dribble"],
-      // instructions: ["dribble", "dribble"],
+      on_ball_traits: ["dribble", "dribble"],
+      off_ball_traits: ["dribble"],
+      instructions: ["dribble", "dribble"],
     },
     Vidic: {
       position: "CDM",
@@ -398,18 +398,7 @@ function Home() {
     });
   }
 
-  // console.log("posessorAction: ", gameState.posessor_action);
-  // console.log("dribbleToBlock: ", gameState.dribble_to_block);
-  // console.log("ballBlock: ", gameState.ball_block);
-  // console.log("commentary: ", gameState.commentary);
-  // console.log("success_chance: ", gameState.success_chance);
-  // console.log("seconds: ", gameState.time);
-  // console.log("defender_block: ", gameState.defender_block);
-  // console.log("defending_player: ", gameState.defending_player);
-  // console.log("defender_action: ", gameState.defender_action);
-  // console.log("defender_action_block: ", gameState.defender_action_block);
-  // console.log("phase_result: ", gameState.phase_result);
-  // console.log("---------------------");
+  console.log(gameState.commentary);
   console.log(gameState);
 
   let pitchObj = {
