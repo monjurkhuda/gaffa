@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import "./PitchBlock.css";
+import PlayerBlock from "./PlayerBlock";
 
 function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
-  //const [showCoordinates, setShowCoordinates] = useState(false);
-
   let coordinatesNum = Number(coordinates);
-
-  // console.log(typeof gameState.ball_block);
-  // console.log(typeof coordinates);
 
   return (
     <div className="pitch_block">
@@ -29,54 +25,29 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
           <p className="commentary_text">{gameState.commentary}</p>
         )}
 
-      {/* {pitchObj[coordinates].Team === "Home" &&
-        pitchObj[coordinates].Player && (
-          <img
-            alt={pitchObj[coordinates].Player}
-            src={require(`../images/${pitchObj[coordinates].Player}_standing.png`)}
-            width={"50px"}
-          ></img>
-        )} */}
+      {pitchObj[coordinates].Player &&
+        gameState.ball_block === coordinatesNum &&
+        !gameState.dribble_to_block && (
+          <PlayerBlock
+            player={pitchObj[coordinates].Player}
+            team={pitchObj[coordinates].Team}
+            action={gameState.posessor_action}
+          />
+        )}
 
       {pitchObj[coordinates].Player &&
         gameState.ball_block !== coordinatesNum && (
-          <img
-            alt={pitchObj[coordinates].Player}
-            src={require(`../images/${pitchObj[coordinates].Player}_standing.png`)}
-            width={"50px"}
-            style={
-              pitchObj[coordinates].Team === "Away"
-                ? { transform: "scaleX(-1)", position: "absolute" }
-                : { position: "absolute" }
-            }
-          ></img>
-        )}
-
-      {gameState.ball_block === coordinatesNum &&
-        !gameState.dribble_to_block && (
-          <img
-            alt={pitchObj[coordinates].Player}
-            src={require(`../images/${gameState.posessing_player}_standing.png`)}
-            width={"50px"}
-            style={
-              pitchObj[coordinates].Team === "Away"
-                ? { transform: "scaleX(-1)", position: "absolute" }
-                : { position: "absolute" }
-            }
-          ></img>
+          <PlayerBlock
+            player={pitchObj[coordinates].Player}
+            team={pitchObj[coordinates].Team}
+          />
         )}
 
       {gameState.dribble_to_block === coordinatesNum && (
-        <img
-          alt={pitchObj[coordinates].Player}
-          src={require(`../images/${gameState.posessing_player}_standing.png`)}
-          width={"50px"}
-          style={
-            pitchObj[coordinates].Team === "Away"
-              ? { transform: "scaleX(-1)", position: "absolute" }
-              : { position: "absolute" }
-          }
-        ></img>
+        <PlayerBlock
+          player={gameState.posessing_player}
+          team={pitchObj[coordinates].Team}
+        />
       )}
 
       {showCoordinates && <div className="coordinates">{coordinates}</div>}

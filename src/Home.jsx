@@ -141,13 +141,13 @@ function Home() {
       mental_traits: {
         one_club_man: true,
       },
-      // on_ball_traits: ["try_killer_ball", "pass_wide"],
-      // off_ball_traits: ["run_forward"],
-      // instructions: ["shoot_long", "stall"],
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long", "stall"],
 
-      on_ball_traits: ["dribble", "dribble"],
-      off_ball_traits: ["dribble"],
-      instructions: ["dribble", "dribble"],
+      // on_ball_traits: ["dribble", "dribble"],
+      // off_ball_traits: ["dribble"],
+      // instructions: ["dribble", "dribble"],
     },
     Vidic: {
       position: "CDM",
