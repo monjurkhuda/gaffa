@@ -32,6 +32,7 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
             player={pitchObj[coordinates].Player}
             team={pitchObj[coordinates].Team}
             action={gameState.posessor_action}
+            result={gameState.phase_result}
           />
         )}
 
@@ -47,6 +48,8 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
         <PlayerBlock
           player={gameState.posessing_player}
           team={pitchObj[coordinates].Team}
+          action={gameState.posessor_action}
+          result={gameState.phase_result}
         />
       )}
 
