@@ -213,7 +213,8 @@ function Home() {
         //follow an instruction
         gameState.posessor_action =
           playerData[posessingPlyr].instructions[randInstructionNum];
-        gameState.commentary = "Instruction followed!";
+        gameState.commentary =
+          playerData[posessingPlyr].instructions[randInstructionNum];
         break;
 
       case randNum > instructionWeight &&
@@ -221,7 +222,8 @@ function Home() {
         //follow an on ball trait
         gameState.posessor_action =
           playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
-        gameState.commentary = "Player on ball trait!";
+        gameState.commentary =
+          playerData[posessingPlyr].on_ball_traits[randOnBallTraitNum];
         break;
 
       case randNum > instructionWeight + onBallTraitWeight:
@@ -230,7 +232,10 @@ function Home() {
           onBallActionsByPosition[playerData[posessingPlyr].position][
             randOnBallActionsNum
           ];
-        gameState.commentary = "Positional on ball action!";
+        gameState.commentary =
+          onBallActionsByPosition[playerData[posessingPlyr].position][
+            randOnBallActionsNum
+          ];
         break;
 
       default:
@@ -243,12 +248,12 @@ function Home() {
       switch (randNum) {
         case 1:
           gameState.dribble_to_block = 410;
-          gameState.commentary = "Gerrard dribbles to his left!";
+          gameState.commentary = gameState.posessor_action;
           break;
 
         case 2:
           gameState.dribble_to_block = 610;
-          gameState.commentary = "Gerrard dribbles to his strong right foot!";
+          gameState.commentary = gameState.posessor_action;
           break;
 
         default:
