@@ -1,6 +1,9 @@
 import React from "react";
 
-function PlayerBlock({ player, team, action, result }) {
+function PlayerBlock({ player, team, gameState }) {
+  let action = gameState?.posessor_action;
+  let result = gameState?.phase_result;
+
   if (result) {
     return (
       <>
