@@ -44,8 +44,8 @@ function PlayerBlock({ player, team, gameState }) {
     <img
       alt={player}
       src={
-        action === "shoot_long" && player === "Gerrard"
-          ? require(`../images/${player}_shoot_long.png`)
+        action === "shoot_long"
+          ? require(`../images/Gerrard_shoot_long.png`)
           : require(`../images/${player}_standing.png`)
       }
       width={"50px"}

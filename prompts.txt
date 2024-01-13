@@ -1,0 +1,14 @@
+Make a pixel art game asset of a soccer player that looks like Brazilian R9 Ronaldo.
+The pixel art characters should have realistic human proportions of an adult male.
+He is standing. He should be wearing a red jersey and red shorts.
+The game asset should have no background, only a monotone color for background.
+
+
+Make 4 pixel art game assets of a soccer player that looks like Steven Gerrard.
+Make all the assets have the same consistent character.
+The pixel art characters should have realistic human proportions of an adult male.
+In one asset, he is standing.
+In another asset, he is kicking the ball for a long shot.
+In another asset, he is jumping. In another asset, he is running.
+He should be wearing a red jersey and red shorts.
+The game asset should have no background, only a monotone color for background.

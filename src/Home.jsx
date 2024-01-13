@@ -114,6 +114,11 @@ function Home() {
       ball_block: 515,
       zone: "GK",
     },
+    Buffon: {
+      position: "GK",
+      ball_block: 500,
+      zone: "GK",
+    },
     VanDijk: {
       position: "LCM",
       ball_block: 402,
@@ -149,6 +154,33 @@ function Home() {
       // off_ball_traits: ["dribble"],
       // instructions: ["dribble", "dribble"],
     },
+    CRonaldo: {
+      position: "LW",
+      ball_block: 111,
+      zone: "Att",
+      first_touch: 18,
+      stamina: 20,
+      passing: 19,
+      club_loyalty: 20,
+      morale: 14,
+      dribbling: 16,
+      trusts_manager: 10,
+      decisions: 18,
+      man_marked_by: "",
+      personal_traits: {
+        one_club_man: true,
+      },
+      mental_traits: {
+        one_club_man: true,
+      },
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long", "stall"],
+
+      // on_ball_traits: ["dribble", "dribble"],
+      // off_ball_traits: ["dribble"],
+      // instructions: ["dribble", "dribble"],
+    },
     Vidic: {
       position: "CDM",
       ball_block: 510,
@@ -164,6 +196,33 @@ function Home() {
       aggression: 18,
       stamina: 16,
       marking: 14,
+    },
+    Drogba: {
+      position: "ST",
+      ball_block: 503,
+      zone: "Att",
+      first_touch: 18,
+      stamina: 20,
+      passing: 19,
+      club_loyalty: 20,
+      morale: 14,
+      dribbling: 16,
+      trusts_manager: 10,
+      decisions: 18,
+      man_marked_by: "",
+      personal_traits: {
+        one_club_man: true,
+      },
+      mental_traits: {
+        one_club_man: true,
+      },
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long", "stall"],
+
+      // on_ball_traits: ["dribble", "dribble"],
+      // off_ball_traits: ["dribble"],
+      // instructions: ["dribble", "dribble"],
     },
   };
 
@@ -407,8 +466,11 @@ function Home() {
   console.log(gameState);
 
   let pitchObj = {
+    111: { Team: "Home", Position: "LW", Player: "CRonaldo" },
     313: { Team: "Away", Position: "RCB", Player: "Matic" },
     402: { Team: "Home", Position: "LCB", Player: "VanDijk" },
+    500: { Team: "Home", Position: "GK", Player: "Buffon" },
+    503: { Team: "Away", Position: "ST", Player: "Drogba" },
     515: { Team: "Away", Position: "GK", Player: "DeGea" },
     509: { Team: "Home", Position: "GK", Player: "Gerrard" },
     510: { Team: "Away", Position: "CDM", Player: "Vidic" },
