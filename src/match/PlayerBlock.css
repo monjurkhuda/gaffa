@@ -1,0 +1,7 @@
+.player_name {
+  position: absolute;
+  font-family: "Courier New", Courier, monospace;
+  margin-bottom: 60px;
+  font-size: x-small;
+  color: black;
+}

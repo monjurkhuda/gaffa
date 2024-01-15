@@ -7,13 +7,6 @@
   height: 50px;
 }
 
-.player_name {
-  position: absolute;
-  margin-bottom: 60px;
-  font-size: small;
-  color: black;
-}
-
 .coordinates {
   position: absolute;
   font-family: "Courier New", Courier, monospace;

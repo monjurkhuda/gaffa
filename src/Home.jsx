@@ -462,7 +462,6 @@ function Home() {
     });
   }
 
-  console.log(gameState.commentary);
   console.log(gameState);
 
   let pitchObj = {

@@ -7,8 +7,6 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
 
   return (
     <div className="pitch_block">
-      <p className="player_name">{pitchObj[coordinates].Player}</p>
-
       {gameState.ball_block === coordinatesNum &&
         (gameState.game_phase === "kickoff" ||
           gameState.game_phase === "defender_action") && (
