@@ -1,15 +1,18 @@
 import React from "react";
 import "./PlayerBlock.css";
 
-function PlayerBlock({ player, team, gameState }) {
+function PlayerBlock({ player, team, gameState, coordinates }) {
+  let coordinatesNum = Number(coordinates);
+
   let action = gameState?.posessor_action;
   let result = gameState?.phase_result;
   let posessingPlayer = gameState?.posessing_player;
+  let defenderBlock = gameState?.defender_block;
+  let defenderActionBlock = gameState?.defender_action_block;
 
-  console.log(result);
-  console.log(action);
+  console.log(defenderBlock, defenderActionBlock, coordinatesNum);
 
-  if (result) {
+  if (result && gameState.ball_block === coordinatesNum) {
     return (
       <>
         <p className="player_name">{player}</p>
@@ -44,7 +47,7 @@ function PlayerBlock({ player, team, gameState }) {
         ></img>
       </>
     );
-  } else if (action) {
+  } else if (action && player === posessingPlayer) {
     return (
       <>
         <p className="player_name">{player}</p>
@@ -76,6 +79,8 @@ function PlayerBlock({ player, team, gameState }) {
         ></img>
       </>
     );
+  } else if (defenderBlock === coordinatesNum && defenderActionBlock) {
+    return <></>;
   } else
     return (
       <>
