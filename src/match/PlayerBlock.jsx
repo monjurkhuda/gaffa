@@ -11,8 +11,8 @@ function PlayerBlock({ player, team, gameState }) {
           alt={player}
           src={
             result === "defender_wins_tackle"
-              ? require(`../images/split_gerrard_posession_left.png`)
-              : require(`../images/gerrad_jumpavoidtackle_left.png`)
+              ? require(`../images/split_vidic_slideTackleSuccess_right.png`)
+              : require(`../images/split_vidic_slideTackleFail_right.png`)
           }
           width={"50px"}
           style={
@@ -26,8 +26,8 @@ function PlayerBlock({ player, team, gameState }) {
           alt={player}
           src={
             result === "defender_wins_tackle"
-              ? require(`../images/split_vidic_slideTackleSuccess_right.png`)
-              : require(`../images/split_vidic_slideTackleFail_right.png`)
+              ? require(`../images/split_gerrard_posession_left.png`)
+              : require(`../images/gerrad_jumpavoidtackle_left.png`)
           }
           width={"50px"}
           style={
