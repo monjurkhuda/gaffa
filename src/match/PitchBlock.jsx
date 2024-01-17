@@ -23,10 +23,21 @@ function PitchBlock({ showCoordinates, coordinates, gameState, pitchObj }) {
           <p className="commentary_text">{gameState.commentary}</p>
         )}
 
-      {pitchObj[coordinates].Player && (
+      {pitchObj[coordinates].Player &&
+        (gameState.ball_block !== coordinatesNum ||
+          !gameState.dribble_to_block) && (
+          <PlayerBlock
+            player={pitchObj[coordinates].Player}
+            team={pitchObj[coordinates].Team}
+            gameState={gameState}
+            coordinates={coordinates}
+          />
+        )}
+
+      {gameState.dribble_to_block === coordinatesNum && (
         <PlayerBlock
-          player={pitchObj[coordinates].Player}
-          team={pitchObj[coordinates].Team}
+          player={gameState.posessing_player}
+          team={gameState.posessing_team}
           gameState={gameState}
           coordinates={coordinates}
         />

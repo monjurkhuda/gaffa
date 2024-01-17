@@ -12,7 +12,11 @@ function PlayerBlock({ player, team, gameState, coordinates }) {
 
   console.log(defenderBlock, defenderActionBlock, coordinatesNum);
 
-  if (result && gameState.ball_block === coordinatesNum) {
+  if (
+    result &&
+    (gameState.ball_block === coordinatesNum ||
+      gameState.defender_action_block === coordinatesNum)
+  ) {
     return (
       <>
         <p className="player_name">{player}</p>
