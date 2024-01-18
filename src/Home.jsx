@@ -68,20 +68,36 @@ function Home() {
   let homeFormations = {
     4231: { B10: "LW", E09: "CAM", H10: "RW", E12: "ST" },
   };
+
   let lineupData = {
     Home: {
+      GK: {
+        Gk: "Buffon",
+      },
+      Def: {
+        LCB: "VanDijk",
+      },
       Mid: {
-        RCM: "VanDijk",
-        LCM: "Gullit",
         CAM: "Gerrard",
+      },
+      Att: {
+        LW: "CRonaldo",
       },
     },
 
     Away: {
+      GK: {
+        Gk: "DeGea",
+      },
+      Def: {
+        RCB: "Matic",
+      },
       Mid: {
         CDM: "Vidic",
-        RCM: "Matic",
-        LCM: "Fred",
+        RCM: "EDavids",
+      },
+      Att: {
+        ST: "Drogba",
       },
     },
   };
@@ -139,7 +155,7 @@ function Home() {
       dribbling: 16,
       trusts_manager: 10,
       decisions: 18,
-      man_marked_by: "Vidic",
+      man_marked_by: "",
       personal_traits: {
         one_club_man: true,
       },
@@ -158,6 +174,29 @@ function Home() {
       position: "LW",
       ball_block: 111,
       zone: "Att",
+      first_touch: 18,
+      stamina: 20,
+      passing: 19,
+      club_loyalty: 20,
+      morale: 14,
+      dribbling: 16,
+      trusts_manager: 10,
+      decisions: 18,
+      man_marked_by: "",
+      personal_traits: {
+        one_club_man: true,
+      },
+      mental_traits: {
+        one_club_man: true,
+      },
+      on_ball_traits: ["try_killer_ball", "pass_wide"],
+      off_ball_traits: ["run_forward"],
+      instructions: ["shoot_long", "stall"],
+    },
+    EDavids: {
+      position: "RCM",
+      ball_block: 308,
+      zone: "Mid",
       first_touch: 18,
       stamina: 20,
       passing: 19,
@@ -390,7 +429,7 @@ function Home() {
 
         if (randomSuccess <= gameState.success_chance) {
           //console.log(gameState.posessor_action, "Success!", randomSuccess);
-          gameState.commentary = "Vidic wins the tackle!";
+          gameState.commentary = `${gameState.defending_player} wins the tackle on ${gameState.posessing_player}!`;
           gameState.phase_result = "defender_wins_tackle";
           if (gameState.dribble_to_block) {
             gameState.defender_action_block = gameState.dribble_to_block;
@@ -399,7 +438,7 @@ function Home() {
           }
         } else {
           //console.log(gameState.posessor_action, "Failure!", randomSuccess);
-          gameState.commentary = "Gerrard jumps to avoid the tackle!";
+          gameState.commentary = `${gameState.posessing_player} jumps to avoid the tackle from ${gameState.defending_player}!`;
           gameState.phase_result = "attacker_hops_tackle";
           if (gameState.dribble_to_block) {
             gameState.defender_action_block = gameState.dribble_to_block;
@@ -412,7 +451,7 @@ function Home() {
 
       case 2:
         gameState.defender_action = "contain";
-        gameState.commentary = "Vidic stands back.";
+        gameState.commentary = `${gameState.defending_player} stands back.`;
         break;
 
       default:
@@ -458,6 +497,7 @@ function Home() {
 
   let pitchObj = {
     111: { Team: "Home", Position: "LW", Player: "CRonaldo" },
+    308: { Team: "Away", Position: "RCM", Player: "EDavids" },
     313: { Team: "Away", Position: "RCB", Player: "Matic" },
     402: { Team: "Home", Position: "LCB", Player: "VanDijk" },
     500: { Team: "Home", Position: "GK", Player: "Buffon" },
